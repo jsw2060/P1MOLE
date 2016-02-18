@@ -14,10 +14,17 @@ public class Login extends JPanel implements MouseListener{
 	int logoHeight=300;
 	
 	//ID & PW & 로그인 & 회원가입버튼
-	JLabel IDLabel,PWLabel;
-	JTextField IDField;
+	JLabel la1,IDLabel,PWLabel,la4;
+	JTextField IDField,nf;
 	JPasswordField PWField;
 	JButton getNew,login;
+	
+	// 성별
+	JRadioButton  M;
+	JRadioButton  W;
+	
+	// 캐릭터
+	
 	
 	// 마우스 커서용
 	Cursor cursor,cursor1;
@@ -37,26 +44,52 @@ public class Login extends JPanel implements MouseListener{
 		setLayout(null);
 		
 		//버튼들 메모리 할당
+		la1=new JLabel("이름");
 		IDLabel=new JLabel("ID");
 		PWLabel=new JLabel("PW");
+		la4=new JLabel("성별");
+		
+		nf=new JTextField();
 		IDField=new JTextField();
 		PWField=new JPasswordField();
-		getNew=new JButton("회원가입");
+		
+		M=new JRadioButton("남자");
+		W=new JRadioButton("여자");
+		
+		// 성별 버튼 그룹
+		ButtonGroup  group = new ButtonGroup();
+		group.add(M);  group.add(W);
+		M.setOpaque(false);
+		W.setOpaque(false);
+		M.setSelected(true);
+		
+		// 성별
+		JPanel p = new JPanel();
+		p.add(la4);p.add(M); p.add(W);
+		
+		//getNew=new JButton("회원가입");
 		login=new JButton("Login");
 
 		//배치 
 		setLayout(null);
+		la1.setBounds(280, 380, 30, 30);
+		nf.setBounds(315, 380, 150, 30);
 		IDLabel.setBounds(280,415,30,30);
 		IDField.setBounds(315,415,150,30);
 		PWLabel.setBounds(280,450,30,30);
 		PWField.setBounds(315,450,150,30);
-		getNew.setBounds(315,485,100,30);
+		p.setBounds(315,485,150,30);
+		p.setOpaque(false);
+		
+		//getNew.setBounds(315,485,100,30);
 		login.setBounds(470,415,65,65);
 
 		//추가
+		add(la1);add(nf);
 		add(IDLabel);add(IDField);add(login);
 		add(PWLabel);add(PWField);
-		add(getNew);
+		add(p);
+		//add(getNew);
 		
 		// 마우스 이벤트 추가
 		addMouseListener(this);

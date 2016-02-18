@@ -11,6 +11,7 @@ public class WaitRoom extends JPanel implements ActionListener, MouseListener{
 	JTextField tf; 							// 채팅창 입력
 	JPanel movie;							// 오전강사님 소스따온거 대채할거 생기면 대체바람
 	JButton b1, b2, b3, b4, b5, b6, b7;		// 들어갈 버튼 선언부
+	//JScrollBar bar;
 	
 	// 마우스 커서용
 	Cursor cursor,cursor1;
