@@ -11,7 +11,7 @@ public class WaitRoom extends JPanel implements ActionListener, MouseListener{
 	JTextField tf; 							// 채팅창 입력
 	JPanel movie;							// 오전강사님 소스따온거 대채할거 생기면 대체바람
 	JButton b1, b2, b3, b4, b5, b6, b7;		// 들어갈 버튼 선언부
-	//JScrollBar bar;
+	JScrollBar bar;
 	
 	// 마우스 커서용
 	Cursor cursor,cursor1;
@@ -42,6 +42,7 @@ public class WaitRoom extends JPanel implements ActionListener, MouseListener{
 		// chatting
 		ta = new JTextArea();						// 채팅창에 메모리 생성
 		JScrollPane js3 = new JScrollPane(ta); 		// 채팅창 스크롤 되게 만듬
+		bar=js3.getVerticalScrollBar();
 		tf = new JTextField(); 						// 채팅창 입력칸
 		
 		// media   없어도됨.

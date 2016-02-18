@@ -77,7 +77,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 		loading.loadConfirm.addActionListener(this);
 		
 		// 윈도우 종료버튼 선택시 아무 것도 안함
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	// 서버와 연결
@@ -110,8 +110,13 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource() == wr.tf){
-			String data = wr.tf.getText();
-			wr.ta.append(data + "\n");
+			String data=wr.tf.getText();
+			if(data.length()<1)
+				return;
+			try
+			{
+				out.write((Function.WAITCHAT+"|"+data+"\n").getBytes());
+			}catch(Exception ex){}
 			wr.tf.setText("");
 		}
 		/*else if(e.getSource() == login.getNew){
@@ -145,6 +150,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 			//card.show(getContentPane(), "LOADING");
 		}
 		else if(e.getSource() == loading.loadConfirm && loading.loadFinish == true){
+			setTitle("대화창");
 			card.show(getContentPane(), "WR");
 		}
 		else if(e.getSource()==wr.b1)
@@ -214,7 +220,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 				  case Function.WAITCHAT:
 				  {
 					  wr.ta.append(st.nextToken()+"\n");
-					  //wr.bar.setValue(wr.bar.getMaximum());
+					  wr.bar.setValue(wr.bar.getMaximum());
 				  }
 				  break;
 				}
