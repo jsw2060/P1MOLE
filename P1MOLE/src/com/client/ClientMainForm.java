@@ -16,7 +16,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class ClientMainForm extends JFrame implements ActionListener, Runnable{
+public class ClientMainForm extends JFrame implements ActionListener, Runnable, MouseListener{
 	CardLayout card = new CardLayout();
 	
 	// 게임창 객체
@@ -31,6 +31,9 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 	GameRule gr = new GameRule();
 	boolean b = false;
 	
+	// 마우스 커서 음성
+	SoundSet MouseClickSound;
+	
 	// id|대화명|성별
     Socket s;
     BufferedReader in;// 서버에서 값을 읽는다
@@ -38,6 +41,9 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 	
 	public ClientMainForm(){
 		setLayout(card);	// BoarderLayout => CardLayout
+		
+		// 마우스 클릭 사운드
+		MouseClickSound = new SoundSet();
 		
 		add("LOG", login);		// 로그인창
 		add("LOADING", loading);// 로딩화면
@@ -110,6 +116,9 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource() == wr.tf){
+			MouseClickSound.SoundSet();
+			MouseClickSound.clip1.play();
+			
 			String data = wr.tf.getText();
 			wr.ta.append(data + "\n");
 			wr.tf.setText("");
@@ -120,6 +129,9 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 			no.setVisible(true);
 		}*/
 		else if(e.getSource() == login.login){
+			MouseClickSound.SoundSet();
+			MouseClickSound.clip1.play();
+			
 			String id=login.IDField.getText().trim();
 			if(id.length()<1)
 			{
@@ -145,33 +157,56 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 			//card.show(getContentPane(), "LOADING");
 		}
 		else if(e.getSource() == loading.loadConfirm && loading.loadFinish == true){
+			MouseClickSound.SoundSet();
+			MouseClickSound.clip1.play();
+			
 			card.show(getContentPane(), "WR");
 		}
 		else if(e.getSource()==wr.b1)
 		{
+			MouseClickSound.SoundSet();
+			MouseClickSound.clip1.play();
+			
 			mr.setSize(230, 235);
 			mr.setBounds(285, 180, 230, 240);
 			mr.setVisible(true);
 		}
 		else if(e.getSource() == wr.b2){
+			MouseClickSound.SoundSet();
+			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "GAMEROOM");
 		}
 		else if(e.getSource() == wr.b6){
+			MouseClickSound.SoundSet();
+			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "LOG");
 			loading.loadFinish = false;
 		}
 		else if(e.getSource() == wr.b5){
+			MouseClickSound.SoundSet();
+			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "GAMERULE");
 		}
 		else if(e.getSource() == gr.b1){
+			MouseClickSound.SoundSet();
+			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "WR");
 		}
 		else if(e.getSource() == moleGamePlay.jButtonStn){
+			MouseClickSound.SoundSet();
+			MouseClickSound.clip1.play();
+			
 			moleGameView.thread=new Thread(moleGameView);
             moleGameView.thread.start();
             moleGameView.timer.start();
+            
+            //moleGamePlay.jButtonStn.setEnabled(false);
+            //moleGamePlay.jButtonPause.setEnabled(true);
+            //moleGamePlay.jButtonExit.setEnabled(false);
 		}
 		else if(e.getSource() == moleGamePlay.jButtonExit){
+			MouseClickSound.SoundSet();
+			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "WR");
 		}
 	}
@@ -220,6 +255,64 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 				}
 			}catch(Exception ex){}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+        //게임뷰moleGameView에서 두더지 hit시에.
+        System.out.println("mole hit!");
+
+        int x,y;
+        x=e.getX();
+        y=e.getY();
+
+        //ground이미지 내에서 마우스 이벤트 발생하는 경우임
+        if(y>=moleGameView.top && y<=(moleGameView.height+moleGameView.top)){
+            if(x>=moleGameView.left && x<=(moleGameView.left+moleGameView.width)){
+                //mole1.png 클릭시임.
+                if(moleGameView.moleImage==moleGameView.molesImage[0]){
+                    //mole1.png가 mole1Hit.png로 바뀜.
+                    moleGameView.moleImage=moleGameView.molesHitImage[0];
+                    moleGameView.repaint();
+                    //mole2.png 클릭시임.`
+              /*} else if(moleGameView.moleImage==moleGameView.molesImage[2]){
+                    //mole2.png가 mole2Hit.png로 바뀜.
+                    moleGameView.moleImage=moleGameView.molesImage[2];
+                    moleGameView.repaint();
+                }*/
+                    //mole3.png 클릭시임.`
+                } else if(moleGameView.moleImage==moleGameView.molesImage[1]){
+                    //mole2.png가 mole2Hit.png로 바뀜.
+                    moleGameView.moleImage=moleGameView.molesImage[1];
+                    moleGameView.repaint();
+                }
+            }
+        }
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

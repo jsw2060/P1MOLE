@@ -1,8 +1,13 @@
 package com.client;
 import javax.swing.*;
+
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.net.MalformedURLException;
 
 public class Login extends JPanel implements MouseListener{
 	//그림정보를 가져온다.
@@ -28,6 +33,9 @@ public class Login extends JPanel implements MouseListener{
 	
 	// 마우스 커서용
 	Cursor cursor,cursor1;
+	
+	// 마우스 커서 음성
+	SoundSet MouseClickSound;
 	
 	public Login()
 	{
@@ -70,6 +78,9 @@ public class Login extends JPanel implements MouseListener{
 		//getNew=new JButton("회원가입");
 		login=new JButton("Login");
 
+		// 마우스 클릭 사운드
+		MouseClickSound = new SoundSet();
+		
 		//배치 
 		setLayout(null);
 		la1.setBounds(280, 380, 30, 30);
@@ -105,13 +116,14 @@ public class Login extends JPanel implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {	// 마우스가 컴포넌트 위에서 눌렸을 때
 		// TODO Auto-generated method stub
 		setCursor(cursor1);
+		MouseClickSound.SoundSet();
+		MouseClickSound.clip1.play();
 		repaint();
 	}
 

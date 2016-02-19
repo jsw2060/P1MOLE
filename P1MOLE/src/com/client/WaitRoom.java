@@ -16,6 +16,9 @@ public class WaitRoom extends JPanel implements ActionListener, MouseListener{
 	// 마우스 커서용
 	Cursor cursor,cursor1;
 	
+	// 마우스 커서 음성
+	SoundSet MouseClickSound;
+	
 	public WaitRoom(){
 		// 마우스용 이미지
 		img=Toolkit.getDefaultToolkit().getImage("image/01.png");
@@ -23,6 +26,9 @@ public class WaitRoom extends JPanel implements ActionListener, MouseListener{
 		
 		img1=Toolkit.getDefaultToolkit().getImage("image/02.png");
 		cursor1=Toolkit.getDefaultToolkit().createCustomCursor(img1, new Point(0,0), "null");
+		
+		// 마우스 클릭 사운드
+		MouseClickSound = new SoundSet();
 		
 		// Room information
 		back = Toolkit.getDefaultToolkit().getImage("image/back.png");
@@ -99,14 +105,12 @@ public class WaitRoom extends JPanel implements ActionListener, MouseListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO 자동 생성된 메소드 스텁
-		
 	}
 	
 	// 마우스 이벤트
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

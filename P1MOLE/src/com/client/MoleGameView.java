@@ -16,6 +16,7 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
     NotiBar notiBar=new NotiBar();
     Rectangle[] rectangles=new Rectangle[9];
     Image[] molesImage=new Image[5];
+    Image[] molesHitImage=new Image[5];
     Image[] combosImage=new Image[11];
     Image moleImage, groundImage,hammerImage,comboImage;
 
@@ -23,6 +24,12 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
         "image/mole1.png","image/mole2.png",
         "image/mole3.png","image/mole4.png",
         ""
+    };
+    
+    String[] stringsImageHit={
+    	"image/mole1Hit.png","image/mole2Hit.png",
+    	"image/mole3Hit.png","image/mole4Hit.png",
+    	""
     };
 
     String[] stringsCombo={
@@ -80,6 +87,7 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
 
         for(int i=0;i<5;i++){
             molesImage[i]=Toolkit.getDefaultToolkit().getImage(stringsImage[i]);
+            molesHitImage[i]=Toolkit.getDefaultToolkit().getImage(stringsImageHit[i]);
         }
 
         for(int j=0;j<11;j++){
