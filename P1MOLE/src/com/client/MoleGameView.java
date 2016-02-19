@@ -13,7 +13,8 @@ import java.util.*;
  */
 public class MoleGameView extends JPanel implements Runnable, MouseMotionListener{
 
-    NotiBar notiBar=new NotiBar();
+    NotiBar notiMyBar=new NotiBar();
+    //NotiBar notiYourBar=new NotiBar();
     Rectangle[] rectangles=new Rectangle[9];
     Image[] molesImage=new Image[5];
     Image[] combosImage=new Image[11];
@@ -91,9 +92,9 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
 
     @Override
     public void paint(Graphics g) {
-        notiBar.jProgressBar.setValue(timerVar);
-        notiBar.jProgressBar.setString(timerVar+" ");
-        notiBar.jProgressBar.setStringPainted(false);
+    	notiMyBar.jProgressBar.setValue(timerVar);
+    	notiMyBar.jProgressBar.setString(timerVar+" ");
+    	notiMyBar.jProgressBar.setStringPainted(false);
         g.drawImage(groundImage,0,0,400,450,this);
         g.drawImage(moleImage,left,top,width,height,this);
         g.drawImage(hammerImage,hammerX-35,hammerY-35,70,70,this);

@@ -21,7 +21,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 	
 	// 게임창 객체
     MoleGamePlay moleGamePlay=new MoleGamePlay();
-    MoleGameView moleGameView=moleGamePlay.moleGameView;
+    MoleGameView moleGameView=moleGamePlay.moleGameMyView;
 	
 	Login login = new Login();
 	WaitRoom wr = new WaitRoom();
