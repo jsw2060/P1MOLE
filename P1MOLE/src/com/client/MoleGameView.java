@@ -88,11 +88,14 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
 
         for(int i=0;i<5;i++){
             molesImage[i]=Toolkit.getDefaultToolkit().getImage(stringsImage[i]);
-            molesHitImage[i]=Toolkit.getDefaultToolkit().getImage(stringsImageHit[i]);
+        }
+        
+        for(int j=0;j<5;j++){
+            molesHitImage[j]=Toolkit.getDefaultToolkit().getImage(stringsImageHit[j]);
         }
 
-        for(int j=0;j<11;j++){
-            combosImage[j]=Toolkit.getDefaultToolkit().getImage(stringsCombo[j]);
+        for(int k=0;k<11;k++){
+            combosImage[k]=Toolkit.getDefaultToolkit().getImage(stringsCombo[k]);
         }
 
 
@@ -161,10 +164,10 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
 
     public void setImage(){
         //랜덤 두더지 이미지
-        int no=(int)(Math.random()*3);
+        int no=(int)(Math.random()*4);
         moleImage=molesImage[no];
 
-        if(moleImage==molesImage[0] || moleImage==molesImage[1]){
+        if(moleImage==molesImage[0] || moleImage==molesImage[1] || moleImage==molesImage[2]){
             c_combo++;
         }
         //랜덤 이미지 위치
