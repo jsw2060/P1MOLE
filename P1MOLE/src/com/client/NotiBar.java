@@ -15,7 +15,7 @@ public class NotiBar extends JPanel {
 		jProgressBar.setBorderPainted(false);
 		
 		this.setLayout(null);
-		jProgressBar.setBounds(10, 430, 380, 25);
+		jProgressBar.setBounds(0, 0, 420, 30);   //위치 수정.
 		this.add(jProgressBar);
 		this.setSize(380, 25);
 	}
