@@ -21,7 +21,11 @@ public class MoleGamePlay extends JPanel {
     Cursor cursor;
 
     public MoleGamePlay(){
-        jTextPane=new JTextPane();
+
+        jLabel=new JLabel(new ImageIcon("image/score.jpg"));	//스코어 이미지 위치
+        jLabel.setBounds(10,10,200,50);
+        
+        jTextPane=new JTextPane();							//스코어  위치
         jTextPane.setEditable(false);
         jTextPane.setBounds(154,10,180,43);
         jTextPane.setText("0");
@@ -68,7 +72,7 @@ public class MoleGamePlay extends JPanel {
         this.setCursor(cursor);
         this.setLayout(null);
         moleGameMyView.setBounds(26,70,400,450);
-        notiMyBar.setBounds(15,530,420,30);
+        notiMyBar.setBounds(15,530,420,30);			//타이머 노티 영역 
 
 
 
