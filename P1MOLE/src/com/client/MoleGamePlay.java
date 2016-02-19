@@ -11,7 +11,7 @@ public class MoleGamePlay extends JPanel {
 	JTextField myTF, yourTF;
     MoleGameView moleGameMyView=new MoleGameView();
     MoleGameView moleGameYourView=new MoleGameView();
-    JButton jButtonStn, jButtonPause, jButtonExit;
+    JButton jButtonStn, jButtonRdy, jButtonPause, jButtonCancel, jButtonExit;
     NotiBar notiMyBar=moleGameMyView.notiMyBar;
     //NotiBar notiYourBar=moleGameYourView.notiBar;
     
@@ -23,33 +23,44 @@ public class MoleGamePlay extends JPanel {
     public MoleGamePlay(){
         jTextPane=new JTextPane();
         jTextPane.setEditable(false);
-        jTextPane.setBounds(140,10,180,50);
+        jTextPane.setBounds(154,10,180,43);
         jTextPane.setText("0");
         jTextPane.setFont(new Font("Pompadour",50,50));
 
-        jLabel=new JLabel(new ImageIcon("image/score.jpg"));
-        jLabel.setBounds(10,10,200,50);
+        jLabel=new JLabel(new ImageIcon("image/score.png"));
+        jLabel.setBounds(10,10,144,43);
 
-        jButtonStn=new JButton(new ImageIcon("image/btn_gameStart.jpg"));
-        jButtonStn.setBounds(30,20,191,59);
+        jButtonStn=new JButton(new ImageIcon("image/start.png"));
+        jButtonStn.setBounds(20,20,144,43);
         jButtonStn.setBorderPainted(false);
         jButtonStn.setContentAreaFilled(false);
 
+        jButtonRdy=new JButton(new ImageIcon("image/ready.png"));
+        jButtonRdy.setBounds(174,20,144,43);
+        jButtonRdy.setBorderPainted(false);
+        jButtonRdy.setContentAreaFilled(false);
+
         jButtonPause=new JButton(new ImageIcon("image/pause.png"));
-        jButtonPause.setBounds(20,95,203,55);
+        jButtonPause.setBounds(20,73,144,43);
         jButtonPause.setBorderPainted(false);
         jButtonPause.setContentAreaFilled(false);
 
+        jButtonCancel=new JButton(new ImageIcon("image/cancel.png"));
+        jButtonCancel.setBounds(174,73,144,43);
+        jButtonCancel.setBorderPainted(false);
+        jButtonCancel.setContentAreaFilled(false);
+        
         jButtonExit=new JButton(new ImageIcon("image/exit.png"));
-        jButtonExit.setBounds(30,165,152,59);
+        jButtonExit.setBounds(20,130,152,59);
         jButtonExit.setBorderPainted(false);
         jButtonExit.setContentAreaFilled(false);
 
         JLabel jLabel1=new JLabel();
-        jLabel1.add(jButtonStn);
-        jLabel1.add(jButtonPause);
+        //jLabel1.setLayout(null);
+        jLabel1.add(jButtonStn);	jLabel1.add(jButtonRdy);
+        jLabel1.add(jButtonPause);	jLabel1.add(jButtonCancel);
         jLabel1.add(jButtonExit);
-        jLabel1.setBounds(560,330,250,300);
+        jLabel1.setBounds(420,280,800,600);
 
         image=Toolkit.getDefaultToolkit().getImage("image/back.png");
         cursorImage=Toolkit.getDefaultToolkit().getImage("image/starhammericon.png");
