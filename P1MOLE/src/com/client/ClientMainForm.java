@@ -105,6 +105,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
     	
     	// 서버로부터 응답값을 받아서 처리
     	new Thread(this).start();// run()
+    	wr.tf.setEnabled(true);// chat
     }
     
 	public static void main(String[] args) {
@@ -120,12 +121,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource() == wr.tf){
-
-			MouseClickSound.SoundSet();
-			MouseClickSound.clip1.play();
 			
 			String data = wr.tf.getText();
-			wr.ta.append(data + "\n");
 
 			if(data.length()<1)
 				return;
