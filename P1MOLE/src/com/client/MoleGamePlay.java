@@ -29,42 +29,44 @@ public class MoleGamePlay extends JPanel {
         jTextPane.setEditable(false);
         jTextPane.setBounds(154,10,180,43);
         jTextPane.setText("0");
-        jTextPane.setFont(new Font("Pompadour",50,50));
+        jTextPane.setFont(new Font("Pompadour",50,35));
 
         jLabel=new JLabel(new ImageIcon("image/score.png"));
         jLabel.setBounds(10,10,144,43);
 
         jButtonStn=new JButton(new ImageIcon("image/start.png"));
-        jButtonStn.setBounds(20,20,144,43);
+        jButtonStn.setBounds(10,20,144,43);
         jButtonStn.setBorderPainted(false);
         jButtonStn.setContentAreaFilled(false);
 
         jButtonRdy=new JButton(new ImageIcon("image/ready.png"));
-        jButtonRdy.setBounds(174,20,144,43);
+        jButtonRdy.setBounds(184,20,144,43);
         jButtonRdy.setBorderPainted(false);
         jButtonRdy.setContentAreaFilled(false);
 
         jButtonPause=new JButton(new ImageIcon("image/pause.png"));
-        jButtonPause.setBounds(20,73,144,43);
+        jButtonPause.setBounds(10,73,144,43);
         jButtonPause.setBorderPainted(false);
         jButtonPause.setContentAreaFilled(false);
 
         jButtonCancel=new JButton(new ImageIcon("image/cancel.png"));
-        jButtonCancel.setBounds(174,73,144,43);
+        jButtonCancel.setBounds(184,73,144,43);
         jButtonCancel.setBorderPainted(false);
         jButtonCancel.setContentAreaFilled(false);
         
         jButtonExit=new JButton(new ImageIcon("image/exit.png"));
-        jButtonExit.setBounds(20,130,152,59);
+        jButtonExit.setBounds(10,130,152,59);
         jButtonExit.setBorderPainted(false);
         jButtonExit.setContentAreaFilled(false);
 
         JLabel jLabel1=new JLabel();
-        //jLabel1.setLayout(null);
+        jLabel1.setLayout(null);
+        
         jLabel1.add(jButtonStn);	jLabel1.add(jButtonRdy);
         jLabel1.add(jButtonPause);	jLabel1.add(jButtonCancel);
         jLabel1.add(jButtonExit);
-        jLabel1.setBounds(420,280,800,600);
+        jLabel1.setOpaque(false);
+        jLabel1.setBounds(440,360,338,205);
 
         image=Toolkit.getDefaultToolkit().getImage("image/back.png");
         cursorImage=Toolkit.getDefaultToolkit().getImage("image/starhammericon.png");
@@ -74,15 +76,11 @@ public class MoleGamePlay extends JPanel {
         moleGameMyView.setBounds(26,70,400,450);
         notiMyBar.setBounds(15,530,420,30);			//타이머 노티 영역 
 
-
-
         this.add(notiMyBar);
         this.add(jLabel);
         this.add(jTextPane);
         this.add(moleGameMyView);
         this.add(jLabel1);
-
-
     }
 
     @Override

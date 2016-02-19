@@ -46,11 +46,12 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		// 마우스 클릭 사운드
 		MouseClickSound = new SoundSet();
 
+		add("GAMEROOM", moleGamePlay); // 게임창
 		add("LOG", login); // 로그인창
 		add("LOADING", loading);// 로딩화면
 		add("WR", wr); // 대기실
 		add("GAMERULE", gr); // 정보보기
-		add("GAMEROOM", moleGamePlay); // 게임창
+
 
 		// 윈도우창 제목과 크기 지정
 		setTitle("잡아라두더지");
