@@ -7,10 +7,14 @@ import java.awt.*;
  * Created by sist on 2016-02-11.
  */
 public class MoleGamePlay extends JPanel {
-    MoleGameView moleGameView=new MoleGameView();
-    NotiBar notiBar=moleGameView.notiBar;
-
+	JPanel myP,yourP;  //게임창에 내 아바타,상대방 아바타 나오는 클래스 변수 추가
+	JTextField myTF, yourTF;
+    MoleGameView moleGameMyView=new MoleGameView();
+    MoleGameView moleGameYourView=new MoleGameView();
     JButton jButtonStn, jButtonPause, jButtonExit;
+    NotiBar notiMyBar=moleGameMyView.notiMyBar;
+    //NotiBar notiYourBar=moleGameYourView.notiBar;
+    
     JTextPane jTextPane;
     JLabel jLabel;
     Image image,cursorImage;
@@ -52,15 +56,15 @@ public class MoleGamePlay extends JPanel {
         cursor=Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0,0), "null");
         this.setCursor(cursor);
         this.setLayout(null);
-        moleGameView.setBounds(26,70,400,450);
-        notiBar.setBounds(15,530,420,30);
+        moleGameMyView.setBounds(26,70,400,450);
+        notiMyBar.setBounds(15,530,420,30);
 
 
 
-        this.add(notiBar);
+        this.add(notiMyBar);
         this.add(jLabel);
         this.add(jTextPane);
-        this.add(moleGameView);
+        this.add(moleGameMyView);
         this.add(jLabel1);
 
 

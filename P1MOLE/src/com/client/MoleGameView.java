@@ -13,7 +13,8 @@ import java.util.*;
  */
 public class MoleGameView extends JPanel implements Runnable, MouseMotionListener{
 
-    NotiBar notiBar=new NotiBar();
+    NotiBar notiMyBar=new NotiBar();
+    //NotiBar notiYourBar=new NotiBar();
     Rectangle[] rectangles=new Rectangle[9];
     Image[] molesImage=new Image[5];
     Image[] molesHitImage=new Image[5];
@@ -99,9 +100,9 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
 
     @Override
     public void paint(Graphics g) {
-        notiBar.jProgressBar.setValue(timerVar);
-        notiBar.jProgressBar.setString(timerVar+" ");
-        notiBar.jProgressBar.setStringPainted(false);
+    	notiMyBar.jProgressBar.setValue(timerVar);
+    	notiMyBar.jProgressBar.setString(timerVar+" ");
+    	notiMyBar.jProgressBar.setStringPainted(false);
         g.drawImage(groundImage,0,0,400,450,this);
         g.drawImage(moleImage,left,top,width,height,this);
         g.drawImage(hammerImage,hammerX-35,hammerY-35,70,70,this);
@@ -133,11 +134,11 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
             while(true){
                 setImage();             //콤보 이미지, 큰 망치 이미지 출력
                 if(timerVar>2000)
-                    Thread.sleep(600);
+                    Thread.sleep(1100);
                 else if(timerVar>800)
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 else
-                    Thread.sleep(450);
+                    Thread.sleep(900);
 
                 if(c_combo>0){
                     if(m_combo !=c_combo){
@@ -146,8 +147,10 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
                     }
                 }
 
-                if(c_combo==3 && timerVar>500){
+                if(c_combo==3 && timerVar>1000){
                     c_combo=0;
+                    moleImage=molesImage[4];
+                    repaint();
                 }
 
             }

@@ -21,7 +21,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	
 	// 게임창 객체
     MoleGamePlay moleGamePlay=new MoleGamePlay();
-    MoleGameView moleGameView=moleGamePlay.moleGameView;
+    MoleGameView moleGameView=moleGamePlay.moleGameMyView;
 	
 	Login login = new Login();
 	WaitRoom wr = new WaitRoom();
@@ -74,6 +74,10 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
         moleGamePlay.jButtonStn.addActionListener(this);
         moleGamePlay.jButtonPause.addActionListener(this);
         moleGamePlay.jButtonExit.addActionListener(this);
+        
+        // 게임창 리스너 추가 
+        moleGameView.addMouseListener(this);
+        moleGameView.timer.addActionListener(this);
 
 		
 		//게임규칙(정보보기) 창
@@ -83,7 +87,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		loading.loadConfirm.addActionListener(this);
 		
 		// 윈도우 종료버튼 선택시 아무 것도 안함
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	// 서버와 연결
@@ -116,11 +120,20 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource() == wr.tf){
+
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			
 			String data = wr.tf.getText();
 			wr.ta.append(data + "\n");
+
+			if(data.length()<1)
+				return;
+			try
+			{
+				out.write((Function.WAITCHAT+"|"+data+"\n").getBytes());
+			}catch(Exception ex){}
+			
 			wr.tf.setText("");
 		}
 		/*else if(e.getSource() == login.getNew){
@@ -157,9 +170,11 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			//card.show(getContentPane(), "LOADING");
 		}
 		else if(e.getSource() == loading.loadConfirm && loading.loadFinish == true){
+
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
-			
+			setTitle("대화창");
+
 			card.show(getContentPane(), "WR");
 		}
 		else if(e.getSource()==wr.b1)
@@ -198,11 +213,10 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			
 			moleGameView.thread=new Thread(moleGameView);
             moleGameView.thread.start();
-            moleGameView.timer.start();
-            
-            //moleGamePlay.jButtonStn.setEnabled(false);
-            //moleGamePlay.jButtonPause.setEnabled(true);
-            //moleGamePlay.jButtonExit.setEnabled(false);
+            moleGameView.timer.start();   //시간 제한 적용 구현중....
+            moleGamePlay.jButtonStn.setEnabled(false);
+            moleGamePlay.jButtonPause.setEnabled(true);
+            moleGamePlay.jButtonExit.setEnabled(false);  
 		}
 		else if(e.getSource() == moleGamePlay.jButtonExit){
 			MouseClickSound.SoundSet();
@@ -249,7 +263,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				  case Function.WAITCHAT:
 				  {
 					  wr.ta.append(st.nextToken()+"\n");
-					  //wr.bar.setValue(wr.bar.getMaximum());
+					  wr.bar.setValue(wr.bar.getMaximum());
 				  }
 				  break;
 				}
@@ -265,7 +279,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+
         //게임뷰moleGameView에서 두더지 hit시에.
         System.out.println("mole hit!");
 
@@ -278,21 +292,30 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
             if(x>=moleGameView.left && x<=(moleGameView.left+moleGameView.width)){
                 //mole1.png 클릭시임.
                 if(moleGameView.moleImage==moleGameView.molesImage[0]){
-                    //mole1.png가 mole1Hit.png로 바뀜.
+                    //mole1.png가 mole4.png로 바뀜.
                     moleGameView.moleImage=moleGameView.molesHitImage[0];
                     moleGameView.repaint();
-                    //mole2.png 클릭시임.`
-              /*} else if(moleGameView.moleImage==moleGameView.molesImage[2]){
-                    //mole2.png가 mole2Hit.png로 바뀜.
-                    moleGameView.moleImage=moleGameView.molesImage[2];
-                    moleGameView.repaint();
-                }*/
-                    //mole3.png 클릭시임.`
+
+                    //mole2.png 클릭시임.
                 } else if(moleGameView.moleImage==moleGameView.molesImage[1]){
-                    //mole2.png가 mole2Hit.png로 바뀜.
-                    moleGameView.moleImage=moleGameView.molesImage[1];
+                    //mole2.png가 mole4.png로 바뀜.
+                    moleGameView.moleImage=moleGameView.molesHitImage[1];
+                    moleGameView.repaint();
+
+                    //mole3.png 클릭시임.
+                } else if(moleGameView.moleImage==moleGameView.molesImage[2]){
+                    //mole2.png가 mole4.png로 바뀜.
+                    moleGameView.moleImage=moleGameView.molesHitImage[2];
+                    moleGameView.repaint();
+                    
+                  //mole4.png 클릭시임.
+                } else if(moleGameView.moleImage==moleGameView.molesImage[3]){
+                    //mole2.png가 mole4.png로 바뀜.
+                    moleGameView.moleImage=moleGameView.molesHitImage[3];
                     moleGameView.repaint();
                 }
+                
+                
             }
         }
 	}
