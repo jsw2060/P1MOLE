@@ -126,11 +126,11 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
             while(true){
                 setImage();             //콤보 이미지, 큰 망치 이미지 출력
                 if(timerVar>2000)
-                    Thread.sleep(600);
+                    Thread.sleep(1100);
                 else if(timerVar>800)
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 else
-                    Thread.sleep(450);
+                    Thread.sleep(900);
 
                 if(c_combo>0){
                     if(m_combo !=c_combo){
@@ -139,8 +139,10 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
                     }
                 }
 
-                if(c_combo==3 && timerVar>500){
+                if(c_combo==3 && timerVar>1000){
                     c_combo=0;
+                    moleImage=molesImage[4];
+                    repaint();
                 }
 
             }

@@ -16,7 +16,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class ClientMainForm extends JFrame implements ActionListener, Runnable{
+public class ClientMainForm extends JFrame implements ActionListener, Runnable, MouseListener{
 	CardLayout card = new CardLayout();
 	
 	// 게임창 객체
@@ -68,6 +68,10 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
         moleGamePlay.jButtonStn.addActionListener(this);
         moleGamePlay.jButtonPause.addActionListener(this);
         moleGamePlay.jButtonExit.addActionListener(this);
+        
+        // 게임창 리스너 추가 
+        moleGameView.addMouseListener(this);
+        moleGameView.timer.addActionListener(this);
 
 		
 		//게임규칙(정보보기) 창
@@ -175,7 +179,10 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 		else if(e.getSource() == moleGamePlay.jButtonStn){
 			moleGameView.thread=new Thread(moleGameView);
             moleGameView.thread.start();
-            moleGameView.timer.start();
+            moleGameView.timer.start();   //시간 제한 적용 구현중....
+            moleGamePlay.jButtonStn.setEnabled(false);
+            moleGamePlay.jButtonPause.setEnabled(true);
+            moleGamePlay.jButtonExit.setEnabled(false);  
 		}
 		else if(e.getSource() == moleGamePlay.jButtonExit){
 			card.show(getContentPane(), "WR");
@@ -226,6 +233,64 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable{
 				}
 			}catch(Exception ex){}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+        //게임뷰moleGameView에서 두더지 hit시에.
+        System.out.println("mole hit!");
+
+        int x,y;
+        x=e.getX();
+        y=e.getY();
+
+        //ground이미지 내에서 마우스 이벤트 발생하는 경우임
+        if(y>=moleGameView.top && y<=(moleGameView.height+moleGameView.top)){
+            if(x>=moleGameView.left && x<=(moleGameView.left+moleGameView.width)){
+                //mole1.png 클릭시임.
+                if(moleGameView.moleImage==moleGameView.molesImage[0]){
+                    //mole1.png가 mole4.png로 바뀜.
+                    moleGameView.moleImage=moleGameView.molesImage[3];
+                    moleGameView.repaint();
+
+                    //mole2.png 클릭시임.
+                } else if(moleGameView.moleImage==moleGameView.molesImage[1]){
+                    //mole2.png가 mole4.png로 바뀜.
+                    moleGameView.moleImage=moleGameView.molesImage[3];
+                    moleGameView.repaint();
+
+                    //mole3.png 클릭시임.
+                } else if(moleGameView.moleImage==moleGameView.molesImage[2]){
+                    //mole2.png가 mole4.png로 바뀜.
+                    moleGameView.moleImage=moleGameView.molesImage[3];
+                    moleGameView.repaint();
+                }
+            }
+        }
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
