@@ -32,30 +32,30 @@ public class MoleGamePlay extends JPanel {
         jTextPane.setFont(new Font("Pompadour",50,35));
 
         jLabel=new JLabel(new ImageIcon("image/score.png"));
-        jLabel.setBounds(10,10,144,43);
+        jLabel.setBounds(10,10,144,44);
 
         jButtonStn=new JButton(new ImageIcon("image/start.png"));
-        jButtonStn.setBounds(10,20,144,43);
+        jButtonStn.setBounds(10,20,144,44);
         jButtonStn.setBorderPainted(false);
         jButtonStn.setContentAreaFilled(false);
 
         jButtonRdy=new JButton(new ImageIcon("image/ready.png"));
-        jButtonRdy.setBounds(184,20,144,43);
+        jButtonRdy.setBounds(184,20,144,44);
         jButtonRdy.setBorderPainted(false);
         jButtonRdy.setContentAreaFilled(false);
 
         jButtonPause=new JButton(new ImageIcon("image/pause.png"));
-        jButtonPause.setBounds(10,73,144,43);
+        jButtonPause.setBounds(10,74,144,44);
         jButtonPause.setBorderPainted(false);
         jButtonPause.setContentAreaFilled(false);
 
         jButtonCancel=new JButton(new ImageIcon("image/cancel.png"));
-        jButtonCancel.setBounds(184,73,144,43);
+        jButtonCancel.setBounds(184,74,144,44);
         jButtonCancel.setBorderPainted(false);
         jButtonCancel.setContentAreaFilled(false);
         
         jButtonExit=new JButton(new ImageIcon("image/exit.png"));
-        jButtonExit.setBounds(10,130,152,59);
+        jButtonExit.setBounds(10,128,144,44);
         jButtonExit.setBorderPainted(false);
         jButtonExit.setContentAreaFilled(false);
 
@@ -65,8 +65,8 @@ public class MoleGamePlay extends JPanel {
         jLabel1.add(jButtonStn);	jLabel1.add(jButtonRdy);
         jLabel1.add(jButtonPause);	jLabel1.add(jButtonCancel);
         jLabel1.add(jButtonExit);
-        jLabel1.setOpaque(false);
-        jLabel1.setBounds(440,360,338,205);
+        //jLabel1.setOpaque(false);
+        jLabel1.setBounds(440,360,338,192);
 
         image=Toolkit.getDefaultToolkit().getImage("image/back.png");
         cursorImage=Toolkit.getDefaultToolkit().getImage("image/starhammericon.png");

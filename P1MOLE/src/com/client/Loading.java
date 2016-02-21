@@ -78,7 +78,7 @@ public class Loading extends JPanel implements MouseListener {
 					percentBar.setValue(num);			// 화면에 게이지 0% -> 100% 출력
 					percentBar.setStringPainted(true);	// 게이지 차오르는 것 출력
 					num++;
-					Thread.sleep(40);					// millisecond 단위  1초는 1000 // 출력 1번당 70만큼 지연을 줌
+					Thread.sleep(30);					// millisecond 단위  1초는 1000 // 출력 1번당 70만큼 지연을 줌
 					if (num > 100){						// 100% 도달시
 						Thread.interrupted();			// Thread death 쓰레드 소멸
 						loadFinish = true;

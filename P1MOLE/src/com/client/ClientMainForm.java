@@ -34,6 +34,10 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 
 	// 마우스 커서 음성
 	SoundSet MouseClickSound;
+	
+	// 게임창 레디 및 스타트 확인용
+	boolean readyConfirm = false;
+	boolean startConfirm = false;
 
 	// id|대화명|성별
 	Socket s;
@@ -73,12 +77,17 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 
 		// 게임 리스너 추가
 		moleGamePlay.jButtonStn.addActionListener(this);
+		moleGamePlay.jButtonRdy.addActionListener(this);
+		moleGamePlay.jButtonCancel.addActionListener(this);
 		moleGamePlay.jButtonPause.addActionListener(this);
 		moleGamePlay.jButtonExit.addActionListener(this);
 
 		// 게임창 리스너 추가
 		moleGameView.addMouseListener(this);
 		moleGameView.timer.addActionListener(this);
+		
+		// 게임창 두더지 쓰레드
+		moleGameView.thread = new Thread(moleGameView);
 
 		// 게임규칙(정보보기) 창
 		gr.b1.addActionListener(this);
@@ -190,27 +199,51 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "WR");
-		} else if (e.getSource() == moleGamePlay.jButtonStn) { // gamestart
+		} else if (e.getSource() == moleGamePlay.jButtonRdy) { // gameready
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
-
-			moleGameView.thread = new Thread(moleGameView);
+			
+			// 사용자가 레디하면 레디값이 true로 변환
+			moleGamePlay.jButtonRdy.setEnabled(false);
+			readyConfirm = true;
+		} else if(e.getSource() == moleGamePlay.jButtonCancel){	// gamecancel
+			// 취소하면 레디가 풀리고 레디값이 false로 변환
+			readyConfirm = false;
+			moleGamePlay.jButtonRdy.setEnabled(true);
+		} else if (e.getSource() == moleGamePlay.jButtonStn && (readyConfirm == true)) { // gamestart
+			// 레디 하지 않으면 게임을 시작할 수 없다
+			MouseClickSound.SoundSet();
+			MouseClickSound.clip1.play();
+			
+			// 게임이 시작되면 스타트값이 true로 바뀌며, 게임시작을 알게된다
+			startConfirm = true;
 			moleGameView.thread.start();
 			moleGameView.timer.start(); // 시간 제한 적용 구현중....
 			moleGamePlay.jButtonStn.setEnabled(false);
 			moleGamePlay.jButtonPause.setEnabled(true);
 			moleGamePlay.jButtonExit.setEnabled(false);
-		} else if(e.getSource()== moleGamePlay.jButtonPause){  // gamepause
+			moleGamePlay.jButtonCancel.setEnabled(false);
+		} else if(e.getSource()== moleGamePlay.jButtonPause && (startConfirm == true)){  // gamepause
+			// 게임 도중에만 일시정지 할 수 있다
 			moleGameView.moleImage=moleGameView.molesImage[4];
 			moleGameView.repaint();
+			
 			moleGameView.timer.stop();
 			moleGamePlay.jButtonStn.setEnabled(true);
 			moleGamePlay.jButtonPause.setEnabled(false);
+			// 일시정지 중에 방을 나갈 수 있다
 			moleGamePlay.jButtonExit.setEnabled(true);
 		} else if (e.getSource() == moleGamePlay.jButtonExit) { // gameexit
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
+			// 게임을 종료하면 대기실로 이동하면서 쓰레드 할당을 해제하고,각종 버튼과 확인값을 초기화 시켜줌
+			readyConfirm = false;
+			startConfirm = false;
+			moleGamePlay.jButtonRdy.setEnabled(true);
+			moleGamePlay.jButtonCancel.setEnabled(true);
+			moleGamePlay.jButtonStn.setEnabled(true);
 			card.show(getContentPane(), "WR");
+			//moleGameView.thread.interrupt();
 		}
 	}
 
@@ -273,25 +306,25 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			if (x >= moleGameView.left && x <= (moleGameView.left + moleGameView.width)) {
 				// mole1.png 클릭시임.
 				if (moleGameView.moleImage == moleGameView.molesImage[0]) {
-					// mole1.png가 mole4.png로 바뀜.
+					// mole1.png가 mole1Hit.png로 바뀜.
 					moleGameView.moleImage = moleGameView.molesHitImage[0];
 					moleGameView.repaint();
 
 					// mole2.png 클릭시임.
 				} else if (moleGameView.moleImage == moleGameView.molesImage[1]) {
-					// mole2.png가 mole4.png로 바뀜.
+					// mole2.png가 mole2Hit.png로 바뀜.
 					moleGameView.moleImage = moleGameView.molesHitImage[1];
 					moleGameView.repaint();
 
 					// mole3.png 클릭시임.
 				} else if (moleGameView.moleImage == moleGameView.molesImage[2]) {
-					// mole2.png가 mole4.png로 바뀜.
+					// mole2.png가 mole3Hit.png로 바뀜.
 					moleGameView.moleImage = moleGameView.molesHitImage[2];
 					moleGameView.repaint();
 
 					// mole4.png 클릭시임.==> 두더지 아님.
 				} else if (moleGameView.moleImage == moleGameView.molesImage[3]) {
-					// mole2.png가 mole4.png로 바뀜.
+					// mole4.png가 mole4Hit.png로 바뀜.
 					moleGameView.moleImage = moleGameView.molesHitImage[3];
 					moleGameView.repaint();
 				}
