@@ -22,17 +22,14 @@ public class MoleGamePlay extends JPanel {
 
     public MoleGamePlay(){
 
-        jLabel=new JLabel(new ImageIcon("image/score.jpg"));	//스코어 이미지 위치
-        jLabel.setBounds(10,10,200,50);
+        jLabel=new JLabel(new ImageIcon("image/score.png"));	//스코어 이미지 위치
+        jLabel.setBounds(10,10,144,44);
         
         jTextPane=new JTextPane();							//스코어  위치
         jTextPane.setEditable(false);
         jTextPane.setBounds(154,10,180,43);
         jTextPane.setText("0");
         jTextPane.setFont(new Font("Pompadour",50,35));
-
-        jLabel=new JLabel(new ImageIcon("image/score.png"));
-        jLabel.setBounds(10,10,144,44);
 
         jButtonStn=new JButton(new ImageIcon("image/start.png"));
         jButtonStn.setBounds(10,20,144,44);
@@ -69,7 +66,7 @@ public class MoleGamePlay extends JPanel {
         jLabel1.setBounds(440,360,338,192);
 
         image=Toolkit.getDefaultToolkit().getImage("image/back.png");
-        cursorImage=Toolkit.getDefaultToolkit().getImage("image/starhammericon.png");
+        cursorImage=Toolkit.getDefaultToolkit().getImage("image/01.png");
         cursor=Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0,0), "null");
         this.setCursor(cursor);
         this.setLayout(null);

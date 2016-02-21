@@ -65,21 +65,22 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
         this.addMouseMotionListener(this);
 
         groundImage=Toolkit.getDefaultToolkit().getImage("image/gameMap.png");
-        hammerImage=Toolkit.getDefaultToolkit().getImage("image/starhammericon.png");
+        hammerImage=Toolkit.getDefaultToolkit().getImage("image/01.png");
 
-        for(int i=0;i<8;i++){
+        for(int i=0;i<9;i++){
             rectangles[i]=new Rectangle();
         }
 
-        //두더지 위치 설정. 두더지 크기는 100x100 가로여백 20, 세로여백10
+        //두더지 위치 설정. 두더지 크기는 100x100 가로여백 20, 세로여백 5
         rectangles[0].setRect(30,100,130,200);	// 1번 행 1번 여백 x로 20씩
         rectangles[1].setRect(150,100,250,200); // 1번 행 2번
         rectangles[2].setRect(270,100,370,200);	// 1번 행 3번
-        rectangles[3].setRect(30,210,130,310);	// 2번 행 1번 
-        rectangles[4].setRect(150,210,250,310);	// 2번 행 2번
-        rectangles[5].setRect(270,210,370,310);	// 2번 행 3번
-        rectangles[6].setRect(30,320,130,420); // 3번 행 1번
-        rectangles[7].setRect(150,320,250,420); // 3번 행 2번
+        rectangles[3].setRect(30,205,130,310);	// 2번 행 1번 
+        rectangles[4].setRect(150,205,250,310);	// 2번 행 2번
+        rectangles[5].setRect(270,205,370,310);	// 2번 행 3번
+        rectangles[6].setRect(30,310,130,420); 	// 3번 행 1번
+        rectangles[7].setRect(150,310,250,420); // 3번 행 2번
+        rectangles[8].setRect(270,310,370,420);	// 3번 행 3번
 
         jLabel=new JLabel();
         jLabel.setBounds(20,20,100,50);
@@ -97,7 +98,6 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
         for(int k=0;k<11;k++){
             combosImage[k]=Toolkit.getDefaultToolkit().getImage(stringsCombo[k]);
         }
-
 
     }
 
@@ -171,7 +171,7 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
             c_combo++;
         }
         //랜덤 이미지 위치
-        int i= (int)(Math.random()*8);//(int)(Math.random()*3);////////////////////////////////
+        int i= (int)(Math.random()*9);//(int)(Math.random()*3);////////////////////////////////
         left=rectangles[i].getLeft();
         top=rectangles[i].getTop();
         width=rectangles[i].getWidth();
