@@ -136,9 +136,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				return;
 			try {
 				out.write((Function.WAITCHAT + "|" + data + "\n").getBytes());
-			} catch (Exception ex) {
-			}
-
+			} catch (Exception ex) {}
 			wr.tf.setText("");
 		}
 		/*
@@ -172,8 +170,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
-			setTitle("대화창");
-
+			
+			setTitle("로딩");
 			card.show(getContentPane(), "WR");
 		} else if (e.getSource() == wr.b1) {
 			MouseClickSound.SoundSet();
@@ -189,6 +187,11 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		} else if (e.getSource() == wr.b6) {
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
+			
+/*			try
+	         {
+	            out.write((Function.EXIT+"|").getBytes());
+	         }catch(Exception ex){}*/
 			card.show(getContentPane(), "LOG");
 			loading.loadFinish = false;
 		} else if (e.getSource() == wr.b5) {
@@ -280,6 +283,12 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				}
 					break;
 				}
+/*				case Function.EXIT: {
+					setTitle("login");
+					card.show(getContentPane(), "LOGIN");
+				}
+					break;
+				*/
 			} catch (Exception ex) {
 			}
 		}

@@ -7,6 +7,7 @@ public class Function {
 	// 방 관련
 	// 채팅 관련
 	public static final int WAITCHAT = 500;
+	public static final int MAKEROOM =300;
 	// 게임 관련
 	// 나가기 관련
 	// 기타(쪽지, 정보)

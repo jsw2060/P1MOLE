@@ -36,6 +36,8 @@ public class WaitRoom extends JPanel implements ActionListener, MouseListener{
 		String[] [] row1 = new String[0][3]; 			// table1 가로로3,세로로 1칸생성
 		model1 = new DefaultTableModel(row1, col1); 	// table1에 들어갈 내용을 model1으로 모음
 		table1 = new JTable(model1); 					// table 1과 model1을 동기화
+		table1.getTableHeader().setReorderingAllowed(false); 	//Table 위치 고정
+		table1.getTableHeader().setResizingAllowed(false); 		//Table 크기 고정
 		JScrollPane js1 = new JScrollPane(table1); 		// table1을 스크롤되게 만듬
 		
 		// stand by 
@@ -43,6 +45,8 @@ public class WaitRoom extends JPanel implements ActionListener, MouseListener{
 		String[] [] row2 = new String[0][3];		// table2 가로로3,세로로 1칸생성
 		model2 = new DefaultTableModel(row2, col2);	// table2에 들어갈 내용을 model2으로 모음
 		table2 = new JTable(model2);				// table2과  model2을 동기화
+		table2.getTableHeader().setReorderingAllowed(false); 
+		table2.getTableHeader().setResizingAllowed(false);
 		JScrollPane js2 = new JScrollPane(table2);	// table2을 스크롤되게 만듬
 		
 		// chatting

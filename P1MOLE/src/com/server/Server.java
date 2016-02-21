@@ -7,6 +7,7 @@ import java.net.*;
 import java.io.*;
 public class Server implements Runnable {
 	Vector<ClientThread> waitVc = new Vector<ClientThread>();
+	Vector<ClientThread> waitRVc = new Vector<ClientThread>();	// 방에 입장해 있는 Client 저장용
 	ServerSocket ss = null;	// 서버에서 접속시 처리 (교환  소켓)
 	
 	public Server(){
@@ -40,7 +41,7 @@ public class Server implements Runnable {
 	}
 	
 	class ClientThread extends Thread {
-		String id, name, sex, pos;
+		String id, name, sex, pos, rname, lock, num;
 		Socket s;
 		BufferedReader in;	// 받을 때는 2byte	(Reader)	client 요청값을 읽어온다
 		OutputStream out;	// 보낼 때는 byte	(Stream)	client로 결과값을 응답할 때
@@ -86,6 +87,20 @@ public class Server implements Runnable {
 							messageAll(Function.WAITCHAT + "|[" + name + "]" + data);
 						}
 						break;
+						case Function.MAKEROOM:
+						{
+							rname = st.nextToken();
+							lock = st.nextToken();
+							num = st.nextToken();
+							pos = "게임방";
+							messageAll(Function.MAKEROOM + "|" + rname + "|" + lock + "|" + num );
+							waitRVc.addElement(this); 
+							messageTo(Function.MYLOG + "|" + id); 
+							for(ClientThread client:waitRVc){
+							messageTo(Function.MAKEROOM + "|" + client.rname + "|" + client.lock + "|" + client.num );	
+							}
+						break;
+						}
 					}
 					
 				} catch (Exception ex) {}
