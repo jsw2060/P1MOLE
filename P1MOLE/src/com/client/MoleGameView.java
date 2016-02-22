@@ -20,6 +20,8 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
     Image[] molesHitImage=new Image[5];
     Image[] combosImage=new Image[11];
     Image moleImage, groundImage,hammerImage,comboImage;
+    //콤보 조건 만족시 보너스 점수 추가 클래스.
+    Bonus bonus=new Bonus();
 
     String[] stringsImage={
         "image/mole1.png","image/mole2.png",
@@ -150,10 +152,13 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
                     }
                 }
 
+                //연속해서 3번 두더지 hit시에 보너스 점수 부여함.
                 if(c_combo==3 && timerVar>1000){
                     c_combo=0;
+                    
                     moleImage=molesImage[4];
                     repaint();
+                    //보너스 점수 추가 구현(예정)
                 }
 
             }
