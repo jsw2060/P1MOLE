@@ -31,6 +31,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	WaitRoom wr = new WaitRoom();
 	Loading loading = new Loading();
 	MakeRoom mr = new MakeRoom();
+	ChatRoom cr=new ChatRoom();
 	// GetNewone no=new GetNewone();
 	GameRule gr = new GameRule();
 	boolean b = false;
@@ -46,7 +47,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	Socket s;
 	BufferedReader in;// 서버에서 값을 읽는다
 	OutputStream out; // 서버로 요청값을 보낸다
-
+	String myId,myRoom;
+	
 	public ClientMainForm() {
 		setLayout(card); // BoarderLayout => CardLayout
 
@@ -58,6 +60,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		add("WR", wr); // 대기실
 		add("GAMERULE", gr); // 정보보기
 		add("GAMEROOM", moleGamePlay); // 게임창
+		add("CR",cr);
 
 		// 윈도우창 제목과 크기 지정
 		setTitle("잡아라두더지");
@@ -99,17 +102,17 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		loading.loadConfirm.addActionListener(this);
 
 		// 윈도우 종료버튼 선택시 아무 것도 안함
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	// 서버와 연결
-	public void connection(String id, String name, String sex) {
+	public void connection(String id, String pwd, String sex) {
 		try {
 			s = new Socket("localhost", 9469);
 			// s=>server
 			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out = s.getOutputStream();
-			out.write((Function.LOGIN + "|" + id + "|" + name + "|" + sex + "\n").getBytes());
+			out.write((Function.LOGIN + "|" + id + "|" + pwd + "|" + sex + "\n").getBytes());
 		} catch (Exception ex) {
 		}
 
@@ -143,13 +146,13 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 
 		if (e.getSource() == wr.tf) {
 
-			String data = wr.tf.getText();
-
-			if (data.length() < 1)
+			String msg=wr.tf.getText().trim();
+			if(msg.length()<1)
 				return;
-			try {
-				out.write((Function.WAITCHAT + "|" + data + "\n").getBytes());
-			} catch (Exception ex) {}
+			try
+			{
+				out.write((Function.WAITCHAT+"|"+msg+"\n").getBytes());
+			}catch(Exception ex){}
 			wr.tf.setText("");
 		}
 		/*
@@ -166,9 +169,9 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				login.IDField.requestFocus();
 				return;
 			}
-			String name = login.nf.getText().trim();
-			if (name.length() < 1) {
-				JOptionPane.showMessageDialog(this, "이름 입력하세요");
+			String pwd = String.valueOf(login.PWField.getPassword()).trim();
+			if (pwd.length() < 1) {
+				JOptionPane.showMessageDialog(this, "비밀번호를 입력하세요");
 				login.nf.requestFocus();
 				return;
 			}
@@ -177,7 +180,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				sex = "남자";
 			else
 				sex = "여자";
-			connection(id, name, sex);
+			connection(id, pwd, sex);
 			// card.show(getContentPane(), "LOADING");
 		} else if (e.getSource() == loading.loadConfirm && loading.loadFinish == true) {
 
@@ -190,24 +193,92 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 
-			mr.setSize(230, 235);
-			mr.setBounds(285, 180, 230, 240);
+			mr.tf.setText("");
+			mr.rb1.setSelected(true);
+			mr.box.setSelectedIndex(0);
+			mr.la3.setVisible(false);
+			mr.pf.setVisible(false);
 			mr.setVisible(true);
-		} else if (e.getSource() == wr.b2) {
+			
+		}else if (e.getSource() == wr.b2) {
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "GAMEROOM");
 		} else if (e.getSource() == wr.b6) {
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
+			try
+			{
+				out.write((Function.EXIT+"|\n").getBytes());
+			}catch(Exception ex){}
+		}
 			
 /*			try
 	         {
 	            out.write((Function.EXIT+"|").getBytes());
 	         }catch(Exception ex){}*/
-			card.show(getContentPane(), "LOG");
-			loading.loadFinish = false;
-		} else if (e.getSource() == wr.b5) {
+			//card.show(getContentPane(), "LOG");
+			//loading.loadFinish = false;
+		else if(e.getSource() == mr.b1)
+		{
+			String rn=mr.tf.getText().trim();
+			if(rn.length()<1)
+			{
+				JOptionPane.showMessageDialog(this,
+						"방이름을 입력하세요");
+				mr.tf.requestFocus();
+				return;
+			}
+			String temp="";
+			for(int i=0;i<wr.model1.getRowCount();i++)
+			{
+				temp=wr.model1.getValueAt(i, 0).toString();
+				if(rn.equals(temp))
+				{
+					JOptionPane.showMessageDialog(this,
+							"이미 존재하는 방입니다\n다른 이름을 입력하세요");
+					mr.tf.setText("");
+					mr.tf.requestFocus();
+					return;
+				}
+			}
+			String state="",pwd="";
+			if(mr.rb1.isSelected())
+			{
+				state="공개";
+				pwd=" ";
+			}
+			else
+			{
+				state="비공개";
+				pwd=String.valueOf(mr.pf.getPassword());
+			}
+			int inwon=mr.box.getSelectedIndex()+2;
+			// 서버로 전송 
+			try
+			{
+				out.write((Function.MAKEROOM+"|"
+			               +rn+"|"+state+"|"
+			               +pwd+"|"+inwon
+			               +"\n").getBytes());
+			}catch(Exception ex){}
+			
+			mr.setVisible(true);
+		}
+		else if(e.getSource()==mr.b2)
+		{
+			mr.setVisible(false);
+		}
+		
+			else if(e.getSource()==cr.b3)
+			{
+				try
+				{
+					out.write((Function.ROOMOUT+"|"
+							+myRoom+"\n").getBytes());
+				}catch(Exception ex){}
+			}
+		 else if (e.getSource() == wr.b5) {
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "GAMERULE");
@@ -273,18 +344,25 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		while (true) {
 			try {
 				String msg = in.readLine();
-				System.out.println("Server=>" + msg);
+				//System.out.println("Server=>" + msg);
 				StringTokenizer st = new StringTokenizer(msg, "|");
 				int protocol = Integer.parseInt(st.nextToken());
 				switch (protocol) {
-				case Function.LOGIN: {
-					String[] data = { st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken() };
-					wr.model2.addRow(data);
-				}
-					break;
+				case Function.LOGIN:
+				  {
+					  String[] data={
+						st.nextToken(),	 
+						st.nextToken(),
+						st.nextToken(),
+						st.nextToken()
+					  };
+					  wr.model2.addRow(data);
+				  }
+				  break;
 				case Function.MYLOG: {
 					String id = st.nextToken();
 					setTitle("Loading");
+					myId=id;
 					loading.new Move().start(); // thread working! 게이지바 차는 것을
 												// 시작함
 					card.show(getContentPane(), "LOADING");
@@ -295,22 +373,338 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					wr.bar.setValue(wr.bar.getMaximum());
 				}
 					break;
+				
+				case Function.EXIT:
+				{
+				String id=st.nextToken();
+				for(int i=0;i<wr.model2.getRowCount();i++)
+				{
+					String temp=wr.model2.getValueAt(i, 0).toString();
+					if(id.equals(temp))
+					{
+						wr.model2.removeRow(i);
+						break;
+					}
 				}
-/*				case Function.EXIT: {
-					setTitle("login");
-					card.show(getContentPane(), "LOGIN");
-				}
-					break;
-				*/
-			} catch (Exception ex) {
 			}
+				break;
+
+				case Function.MYCHATEND:
+				{
+					dispose();
+					System.exit(0);
+				}
+
+				case Function.NOID:
+				{
+					JOptionPane.showMessageDialog(this,
+							"ID가 존재하지 않습니다");
+					login.IDField.setText("");
+					login.PWField.setText("");
+					login.IDField.requestFocus();
+				}
+				break;
+				case Function.NOPWD:
+				{
+					JOptionPane.showMessageDialog(this,
+							"비밀번호가 틀립니다");
+					
+					login.PWField.setText("");
+					login.PWField.requestFocus();
+				}
+				break;
+				case Function.MULTIID:
+				{
+					JOptionPane.showMessageDialog(this,
+							"이미 사용중인 아이디입니다");
+					login.IDField.setText("");
+					login.PWField.setText("");
+					login.IDField.requestFocus();
+				}
+				break;
+				case Function.MAKEROOM:
+				{
+					String[] data={
+						st.nextToken(),	
+						st.nextToken(),	
+						st.nextToken()
+					};
+					wr.model1.addRow(data);
+				}
+				break;
+
+				case Function.MYROOMIN:
+				{
+					String id=st.nextToken();
+					String name=st.nextToken();
+					String sex=st.nextToken();
+					String avata=st.nextToken();
+					myRoom=st.nextToken();
+					String rb=st.nextToken();
+					card.show(getContentPane(), "CR");
+					String[] data={id,name,sex};
+					cr.model.addRow(data);
+					for(int i=0;i<6;i++)
+					{
+						if(!cr.sw[i])
+						{
+							cr.sw[i]=true;
+							cr.pan[i].setLayout(new BorderLayout());
+							cr.pan[i].removeAll();
+							cr.pan[i].add("Center",
+									new JLabel(new ImageIcon("c:\\image\\"
+							        +(sex.equals("남자")?"m":"w")+avata+".gif")));
+							cr.idtf[i].setText(name);
+							if(id.equals(rb))
+							{
+								cr.idtf[i].setForeground(Color.red);
+							}
+							cr.pan[i].validate();
+							break;
+						}
+					}
+					
+					if(id.equals(rb))
+					{
+						cr.b1.setEnabled(true);
+						cr.b2.setEnabled(true);
+					}
+					else
+					{
+						cr.b1.setEnabled(false);
+						cr.b2.setEnabled(false);
+					}
+					
+				}
+				break;
+				case Function.POSCHANGE:
+				{
+					String id=st.nextToken();
+					String pos=st.nextToken();
+					for(int i=0;i<wr.model2.getRowCount();i++)
+					{
+						String temp=wr.model2.getValueAt(i,0).toString();
+						if(id.equals(temp))
+						{
+							wr.model2.setValueAt(pos, i, 3);
+							break;
+						}
+					}
+				}
+				break;
+
+				case Function.ROOMIN:
+				{
+					String id=st.nextToken();
+					String name=st.nextToken();
+					String sex=st.nextToken();
+					String avata=st.nextToken();
+					String rb=st.nextToken();
+					card.show(getContentPane(), "CR");
+					String[] data={id,name,sex};
+					cr.model.addRow(data);
+					for(int i=0;i<6;i++)
+					{
+						if(!cr.sw[i])
+						{
+							cr.sw[i]=true;
+							cr.pan[i].setLayout(new BorderLayout());
+							cr.pan[i].removeAll();
+							cr.pan[i].add("Center",
+									new JLabel(new ImageIcon("c:\\image\\"
+							        +(sex.equals("남자")?"m":"w")+avata+".gif")));
+							cr.idtf[i].setText(name);
+							if(id.equals(rb))
+							{
+								cr.idtf[i].setForeground(Color.red);
+							}
+							cr.pan[i].validate();
+							break;
+						}
+					}
+				}
+				break;
+
+				case Function.ROOMCHAT:
+				{
+					cr.ta.append(st.nextToken()+"\n");
+				
+				}
+				break;
+				case Function.WAITUPDATE:
+				{
+					/*
+					 *  +room.roomName+"|"
+    									+room.current+"|"
+    									+room.inwon+"|"
+    									+id+"|"
+    									+pos
+					 */
+					String rn=st.nextToken();
+					String rc=st.nextToken();
+					String ri=st.nextToken();
+					String id=st.nextToken();
+					String pos=st.nextToken();
+					for(int i=0;i<wr.model1.getRowCount();i++)
+					{
+						String temp=wr.model1.getValueAt(i, 0).toString();
+						if(rn.equals(temp))
+						{
+							if(Integer.parseInt(rc)<1)
+							{
+								wr.model1.removeRow(i);
+							}
+							else
+							{
+								wr.model1.setValueAt(rc+"/"+ri, i, 2);
+							}
+							break;
+						}
+					}
+					for(int i=0;i<wr.model2.getRowCount();i++)
+					{
+						String temp=wr.model2.getValueAt(i,0).toString();
+						if(id.equals(temp))
+						{
+							wr.model2.setValueAt(pos, i, 3);
+							break;
+						}
+					}
+				}
+				break;
+
+				case Function.BANGCHANGE:
+				{
+					String bj=st.nextToken();
+					String name=st.nextToken();
+					JOptionPane.showMessageDialog(this,
+							"방장이 "+bj+"님으로 변경되었습니다");
+					for(int i=0;i<6;i++)
+					{
+						String n=cr.idtf[i].getText();
+						if(n.equals(name))
+						{
+							cr.idtf[i].setForeground(Color.red);
+						}
+						else
+						{
+							cr.idtf[i].setForeground(Color.black);
+						}
+					}
+					if(bj.equals(getTitle()))
+					{
+						cr.b1.setEnabled(true);
+						cr.b2.setEnabled(true);
+						
+					}
+					else
+					{
+						cr.b1.setEnabled(false);
+						cr.b2.setEnabled(false);
+					}
+				}
+				break;
+				case Function.ROOMOUT:
+				{
+					String id=st.nextToken();
+					String name=st.nextToken();
+					for(int i=0;i<6;i++)
+					{
+						String temp=cr.idtf[i].getText();
+						if(temp.equals(name))
+						{
+    						cr.sw[i]=false;
+    						cr.idtf[i].setText("");
+    						cr.pan[i].removeAll();
+    						cr.pan[i].setLayout(new BorderLayout());
+    						cr.pan[i].add("Center",new JLabel(
+    								new ImageIcon("c:\\image\\def.png")));
+    						cr.pan[i].validate();
+    						break;
+						}
+					}
+					
+					for(int i=cr.model.getRowCount()-1;i>=0;i--)
+					{
+						String ii=cr.model.getValueAt(i, 0).toString();
+						if(ii.equals(id))
+						{
+						  cr.model.removeRow(i);
+						  break;
+						}
+					}
+				}
+				break;
+				case Function.MYROOMOUT:
+				{
+					for(int i=0;i<6;i++)
+					{
+						cr.sw[i]=false;
+						cr.idtf[i].setText("");
+						cr.pan[i].removeAll();
+						cr.pan[i].setLayout(new BorderLayout());
+						cr.pan[i].add("Center",new JLabel(
+								new ImageIcon("c:\\image\\def.png")));
+						cr.pan[i].validate();
+					}
+					cr.ta.setText("");
+					cr.tf.setText("");
+					for(int i=cr.model.getRowCount()-1;i>=0;i--)
+					{
+						cr.model.removeRow(i);
+					}
+					card.show(getContentPane(), "WR");
+				}
+			}
+				}
+			 catch (Exception ex) {}
 		}
+			
 	}
+		
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		if(e.getSource()==wr.table2)
+		{
+			int row=wr.table2.getSelectedRow();
+			String id=wr.model2.getValueAt(row, 0).toString();
+			if(myId.equals(id))
+			{
+				wr.b3.setEnabled(false);
+				wr.b4.setEnabled(false);
+			}
+			else
+			{
+				wr.b3.setEnabled(true);
+				wr.b4.setEnabled(true);
+			}
+		}
+		else if(e.getSource()==wr.table1)
+		{
+			if(e.getClickCount()==2)
+			{
+				int row=wr.table1.getSelectedRow();
+				String rn=wr.model1.getValueAt(row, 0).toString();
+				String rs=wr.model1.getValueAt(row, 1).toString();
+				String ri=wr.model1.getValueAt(row, 2).toString();
+				StringTokenizer st=
+						new StringTokenizer(ri, "/");
+				// 1/6  => 6/6
+				if(Integer.parseInt(st.nextToken())==
+						Integer.parseInt(st.nextToken()))
+				{
+					JOptionPane.showMessageDialog(this,
+							"더이상 입장이 불가능 합니다");
+					return;
+				}
+				try
+				{
+					out.write((Function.MYROOMIN+"|"+rn+"\n").getBytes());
+				}catch(Exception ex){}
+			}
+		}
 	}
 
 	@Override
