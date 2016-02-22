@@ -130,6 +130,7 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
         hammerX=e.getX();
         hammerY=e.getY();
         repaint();
+        System.out.println("temp");
     }
 
     //두더지 나왔다 들어갔다하는 부분 스레드로 구현.
