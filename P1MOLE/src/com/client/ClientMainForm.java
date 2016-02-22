@@ -99,13 +99,13 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		loading.loadConfirm.addActionListener(this);
 
 		// 윈도우 종료버튼 선택시 아무 것도 안함
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 
 	// 서버와 연결
 	public void connection(String id, String pwd, String sex) {
 		try {
-			s = new Socket("localhost", 9469);
+			s = new Socket("211.238.142.85", 9469);
 			// s=>server
 			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out = s.getOutputStream();
