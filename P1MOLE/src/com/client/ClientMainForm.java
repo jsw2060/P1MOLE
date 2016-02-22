@@ -96,7 +96,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		loading.loadConfirm.addActionListener(this);
 
 		// 윈도우 종료버튼 선택시 아무 것도 안함
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 
 	// 서버와 연결

@@ -16,14 +16,14 @@ public class MoleGamePlay extends JPanel {
     //NotiBar notiYourBar=moleGameYourView.notiBar;
     
     JTextPane jTextPane;
-    JLabel jLabel;
+    JLabel scoreJLabel;
     Image image,cursorImage;
     Cursor cursor;
 
     public MoleGamePlay(){
 
-        jLabel=new JLabel(new ImageIcon("image/score.png"));	//스코어 이미지 위치
-        jLabel.setBounds(10,10,144,44);
+    	scoreJLabel=new JLabel(new ImageIcon("image/score.png"));	//스코어 이미지 위치
+    	scoreJLabel.setBounds(10,10,144,44);
         
         jTextPane=new JTextPane();							//스코어  위치
         jTextPane.setEditable(false);
@@ -56,14 +56,14 @@ public class MoleGamePlay extends JPanel {
         jButtonExit.setBorderPainted(false);
         jButtonExit.setContentAreaFilled(false);
 
-        JLabel jLabel1=new JLabel();
-        jLabel1.setLayout(null);
+        JLabel gamemenuJLabel=new JLabel();
+        gamemenuJLabel.setLayout(null);
         
-        jLabel1.add(jButtonStn);	jLabel1.add(jButtonRdy);
-        jLabel1.add(jButtonPause);	jLabel1.add(jButtonCancel);
-        jLabel1.add(jButtonExit);
+        gamemenuJLabel.add(jButtonStn);	gamemenuJLabel.add(jButtonRdy);
+        gamemenuJLabel.add(jButtonPause);	gamemenuJLabel.add(jButtonCancel);
+        gamemenuJLabel.add(jButtonExit);
         //jLabel1.setOpaque(false);
-        jLabel1.setBounds(440,360,338,192);
+        gamemenuJLabel.setBounds(440,360,338,192);
 
         image=Toolkit.getDefaultToolkit().getImage("image/back.png");
         cursorImage=Toolkit.getDefaultToolkit().getImage("image/01.png");
@@ -74,10 +74,10 @@ public class MoleGamePlay extends JPanel {
         notiMyBar.setBounds(15,530,420,30);			//타이머 노티 영역 
 
         this.add(notiMyBar);
-        this.add(jLabel);
+        this.add(scoreJLabel);
         this.add(jTextPane);
         this.add(moleGameMyView);
-        this.add(jLabel1);
+        this.add(gamemenuJLabel);
     }
 
     @Override
