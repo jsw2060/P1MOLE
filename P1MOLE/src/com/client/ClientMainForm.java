@@ -187,13 +187,17 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		} else if (e.getSource() == wr.b6) {
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
+			try
+			{
+				out.write((Function.EXIT+"|\n").getBytes());
+			}catch(Exception ex){}
 			
 /*			try
 	         {
 	            out.write((Function.EXIT+"|").getBytes());
 	         }catch(Exception ex){}*/
-			card.show(getContentPane(), "LOG");
-			loading.loadFinish = false;
+			//card.show(getContentPane(), "LOG");
+			//loading.loadFinish = false;
 		} else if (e.getSource() == wr.b5) {
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
@@ -264,11 +268,17 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				StringTokenizer st = new StringTokenizer(msg, "|");
 				int protocol = Integer.parseInt(st.nextToken());
 				switch (protocol) {
-				case Function.LOGIN: {
-					String[] data = { st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken() };
-					wr.model2.addRow(data);
-				}
-					break;
+				case Function.LOGIN:
+				  {
+					  String[] data={
+						st.nextToken(),	 
+						st.nextToken(),
+						st.nextToken(),
+						st.nextToken()
+					  };
+					  wr.model2.addRow(data);
+				  }
+				  break;
 				case Function.MYLOG: {
 					String id = st.nextToken();
 					setTitle("Loading");
@@ -282,13 +292,26 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					wr.bar.setValue(wr.bar.getMaximum());
 				}
 					break;
+				
+				case Function.EXIT:
+				{
+				String id=st.nextToken();
+				for(int i=0;i<wr.model2.getRowCount();i++)
+				{
+					String temp=wr.model2.getValueAt(i, 0).toString();
+					if(id.equals(temp))
+					{
+						wr.model2.removeRow(i);
+						break;
+					}
 				}
-/*				case Function.EXIT: {
-					setTitle("login");
-					card.show(getContentPane(), "LOGIN");
+			}
+				case Function.MYCHATEND:
+				{
+					dispose();
+					System.exit(0);
 				}
-					break;
-				*/
+				}
 			} catch (Exception ex) {
 			}
 		}

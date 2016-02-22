@@ -67,20 +67,23 @@ public class Server implements Runnable {
 					StringTokenizer st = new StringTokenizer(msg, "|");		// 구분해서 잘라넴
 					int protocol = Integer.parseInt(st.nextToken());	// 번호 100번 잘라냄
 					switch (protocol) {
-						case Function.LOGIN: {		// 각각 id, name, sex, pos를 구분해줌
-							id = st.nextToken();
-							name = st.nextToken();
-							sex = st.nextToken();
-							pos = "대기실";
-							messageAll(Function.LOGIN + "|" + id + "|" + name + "|" + sex + "|" + pos);	// 이미 접속해있던 사람들에게 내가 로그인 한 것을 전송
-							waitVc.addElement(this); // 끊어서 저장
-							messageTo(Function.MYLOG + "|" + id); // 서버의 응답 중 화면 전환에 대한 내용을 끊어냄
-							for(ClientThread client:waitVc){
-								messageTo(Function.LOGIN + "|" + client.id + "|" + client.name + "|" + client.sex + "|" + client.pos);	// 내가 이미 접속한 사람들의 정보를 받아옴
-							}
-							// 방정보 전송
-						}
-						break;
+					  case Function.LOGIN:
+					  {
+						 id=st.nextToken();
+						 name=st.nextToken();
+						 sex=st.nextToken();
+						 pos="대기실";
+						 messageAll(Function.LOGIN+"|"+id+"|"+name+"|"+sex+"|"+pos);
+						 waitVc.addElement(this);
+						 messageTo(Function.MYLOG+"|"+id);
+						 for(ClientThread client:waitVc)
+						 {
+							 messageTo(Function.LOGIN+"|"+client.id+"|"
+						          +client.name+"|"+client.sex+"|"+client.pos);
+						 }
+						 // 방정보 전송 
+					  }
+					 break;
 						case Function.WAITCHAT:	// 채팅
 						{
 							String data = st.nextToken();
@@ -101,9 +104,26 @@ public class Server implements Runnable {
 							}
 						break;
 						}
+						case Function.EXIT:
+						{
+							messageAll(Function.EXIT+"|"+id);
+	    					messageTo(Function.MYCHATEND+"|");
+	    					for(int i=0;i<waitVc.size();i++)
+	    					{
+	    						ClientThread client=waitVc.elementAt(i);
+	    						if(id.equals(client.id))
+	    						{
+	    							waitVc.removeElementAt(i);
+	    							in.close();
+	    							out.close();
+	    							break;
+	    						}
+	    					}
 					}
+					}
+				}
 					
-				} catch (Exception ex) {}
+				 catch (Exception ex) {}
 			}
 		}
 		
