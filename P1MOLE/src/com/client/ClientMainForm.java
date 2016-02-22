@@ -23,6 +23,9 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	// 게임창 객체
 	MoleGamePlay moleGamePlay = new MoleGamePlay();
 	MoleGameView moleGameView = moleGamePlay.moleGameMyView;
+	
+	//먹물표시
+	IndianInk indianInk=new IndianInk();
 
 	Login login = new Login();
 	WaitRoom wr = new WaitRoom();
@@ -116,12 +119,22 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	}
 
 	public static void main(String[] args) {
-		// 예외처리
-		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-		} catch (Exception ex) {
-		}
-		ClientMainForm cm = new ClientMainForm();
+		
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				// 예외처리
+				try {
+					UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				ClientMainForm cm = new ClientMainForm();
+			}			
+		});
+
 	}
 
 	// 패널바꾸기
@@ -317,25 +330,68 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				if (moleGameView.moleImage == moleGameView.molesImage[0]) {
 					// mole1.png가 mole1Hit.png로 바뀜.
 					moleGameView.moleImage = moleGameView.molesHitImage[0];
+					//점수 반영
+					if(moleGameView.m_combo<20){		//콤보점수 디폴드 0임.
+						moleGameView.m_score+=100;		//두더지 한번 히트시 기본 100점 추가됨.
+						moleGameView.m_combo++;			//콤보 점수 1증가.
+						moleGamePlay.jTextPane.setText(String.valueOf(moleGameView.m_score));	//해당 점수 출력
+					}else{
+						//콤보점수가 20점 이상이면 아래 점수 반영
+						moleGameView.m_score+=200;		//두더지  hit시에 기본 200점씩 추가됨.
+						moleGameView.m_combo++;			//콤보 점수 1증가.
+						moleGamePlay.jTextPane.setText(String.valueOf(moleGameView.m_score)); 	//해당 점수 출력
+					}
+					
 					moleGameView.repaint();
 
 					// mole2.png 클릭시임.
 				} else if (moleGameView.moleImage == moleGameView.molesImage[1]) {
 					// mole2.png가 mole2Hit.png로 바뀜.
 					moleGameView.moleImage = moleGameView.molesHitImage[1];
+					//점수 반영
+					if(moleGameView.m_combo<20){		//콤보점수 디폴드 0임.
+						moleGameView.m_score+=200;		//두더지  히트시 기본 200점 추가됨.
+						moleGameView.m_combo++;			//콤보 점수 1증가.
+						moleGamePlay.jTextPane.setText(String.valueOf(moleGameView.m_score));	//해당 점수 출력
+					}else{
+						//콤보점수가 20점 이상이면 클릭시부터 아래 점수 반영
+						moleGameView.m_score+=400;		//두더지  hit시에 기본 400점씩 추가됨.
+						moleGameView.m_combo++;			//콤보 점수 1증가.
+						moleGamePlay.jTextPane.setText(String.valueOf(moleGameView.m_score)); 	//해당 점수 출력
+					}
 					moleGameView.repaint();
 
 					// mole3.png 클릭시임.
 				} else if (moleGameView.moleImage == moleGameView.molesImage[2]) {
 					// mole2.png가 mole3Hit.png로 바뀜.
 					moleGameView.moleImage = moleGameView.molesHitImage[2];
+					//점수 반영
+					if(moleGameView.m_combo<20){		//콤보점수 디폴드 0임.
+						moleGameView.m_score+=300;		//두더지  히트시 기본 300점 추가됨.
+						moleGameView.m_combo++;			//콤보 점수 1증가.
+						moleGamePlay.jTextPane.setText(String.valueOf(moleGameView.m_score));	//해당 점수 출력
+					}else{
+						//콤보점수가 20점 이상이면 아래 점수 반영
+						moleGameView.m_score+=600;		//두더지  hit시에 기본 600점씩 추가됨.
+						moleGameView.m_combo++;			//콤보 점수 1증가.
+						moleGamePlay.jTextPane.setText(String.valueOf(moleGameView.m_score)); 	//해당 점수 출력
+					}
+					
 					moleGameView.repaint();
 
 					// mole4.png 클릭시임.==> 두더지 아님.
 				} else if (moleGameView.moleImage == moleGameView.molesImage[3]) {
-					// mole4.png가 mole4Hit.png로 바뀜.
-					moleGameView.moleImage = moleGameView.molesHitImage[3];
+					// mole4.png가 muk.jpg로 바뀜.==> 먹물 표시 이미지 표시되게 함.
+					indianInk.setVisible(true);
+					indianInk.timer.start();		//타이머 스레드 시작
+					if(moleGameView.m_score<100){	//점수가 100미만인경우
+						moleGameView.m_score=0;
+					}else{							//100이상인 경우
+						moleGameView.m_score-=100;	//100점씩 감점.
+						moleGameView.m_combo=0;		//콤보 점수는 0.
+					}							
 					moleGameView.repaint();
+					moleGamePlay.jTextPane.setText(String.valueOf(moleGameView.m_score));     //해당 점수 출력
 				}
 
 			}
