@@ -59,7 +59,6 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		add("LOADING", loading);// 로딩화면
 		add("WR", wr); // 대기실
 		add("GAMERULE", gr); // 정보보기
-		//add("CR",cr);
 		add("GAMEROOM", moleGamePlay); // 게임창
 
 		// 윈도우창 제목과 크기 지정
@@ -81,6 +80,10 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		wr.b5.addActionListener(this);
 		wr.b6.addActionListener(this);
 
+		// 방만들기 창
+		mr.b1.addActionListener(this);
+		mr.b2.addActionListener(this);
+		
 		// 게임 리스너 추가
 		moleGamePlay.jButtonStn.addActionListener(this);
 		moleGamePlay.jButtonRdy.addActionListener(this);
@@ -215,8 +218,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		} else if(e.getSource() == mr.b1){
 			String rn=mr.tf.getText().trim();
 			if(rn.length()<1) {
-				JOptionPane.showMessageDialog(this,
-						"방이름을 입력하세요");
+				JOptionPane.showMessageDialog(this, "방이름을 입력하세요");
 				mr.tf.requestFocus();
 				return;
 			}
@@ -226,8 +228,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				temp=wr.model1.getValueAt(i, 0).toString();
 				if(rn.equals(temp))
 				{
-					JOptionPane.showMessageDialog(this,
-							"이미 존재하는 방입니다\n다른 이름을 입력하세요");
+					JOptionPane.showMessageDialog(this, "이미 존재하는 방입니다\n다른 이름을 입력하세요");
 					mr.tf.setText("");
 					mr.tf.requestFocus();
 					return;
@@ -248,13 +249,10 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			// 서버로 전송 
 			try
 			{
-				out.write((Function.MAKEROOM+"|"
-			               +rn+"|"+state+"|"
-			               +pwd+"|"+inwon
-			               +"\n").getBytes());
+				out.write((Function.MAKEROOM+"|"+rn+"|"+state+"|"+pwd+"|"+inwon+"\n").getBytes());
 			}catch(Exception ex){}
 			
-			mr.setVisible(true);
+			mr.setVisible(false);
 		}
 		else if(e.getSource()==mr.b2)
 		{
