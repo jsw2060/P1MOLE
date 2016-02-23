@@ -26,6 +26,12 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	
 	//먹물표시
 	IndianInk indianInk=new IndianInk();
+	
+	//보너스 객체
+	Bonus bonus= moleGameView.bonus;
+	
+	//게임창의 시간 알림바
+	NotiBar notibar=moleGamePlay.notiMyBar;
 
 	Login login = new Login();
 	WaitRoom wr = new WaitRoom();
@@ -105,21 +111,27 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		
 		// 먹물 이벤트 리스너 연결
 		indianInk.timer.addActionListener(this);
+		
+		// 보너스 이미지 아이콘 버튼 리스너 추가
+		bonus.jButton.addActionListener(this);
+		
 
 		// 게임규칙(정보보기) 창
 		gr.b1.addActionListener(this);
 
 		// 로딩 창
 		loading.loadConfirm.addActionListener(this);
-
+		
 		// 윈도우 종료버튼 선택시 아무 것도 안함
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
 	}
 
 	// 서버와 연결
 	public void connection(String id, String pwd, String sex) {
 		try {
-			s = new Socket("211.238.142.85", 9469);
+			//s = new Socket("211.238.142.85", 9469);
+			s = new Socket("127.0.0.1", 9469);
 			// s=>server
 			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out = s.getOutputStream();
@@ -218,12 +230,22 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			setTitle("게임방");
 			card.show(getContentPane(), "GAMEROOM");
 		} else if (e.getSource() == wr.b6) {
-			MouseClickSound.SoundSet();
-			MouseClickSound.clip1.play();
-			try
-			{
-				out.write((Function.EXIT+"|\n").getBytes());
-			}catch(Exception ex){}
+			int confirmPopup=JOptionPane.showConfirmDialog(this, "정말로 나가시는거에요?", "선택", JOptionPane.YES_NO_OPTION);
+			if(confirmPopup==JOptionPane.YES_OPTION){
+				MouseClickSound.SoundSet();
+				MouseClickSound.clip1.play();
+				try
+				{
+					out.write((Function.EXIT+"|\n").getBytes());
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
+				dispose();
+				System.exit(0);
+			}
+			if(confirmPopup==JOptionPane.NO_OPTION){
+				
+			}
 
 		} else if(e.getSource() == mr.b1){
 			String rn=mr.tf.getText().trim();
@@ -477,7 +499,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					wr.model1.addRow(data);
 				}
 				break;
-				
+
+				// 게임방 들어가기
 				case Function.MYROOMIN:
 				{
 					String id=st.nextToken();
@@ -486,7 +509,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					String avata=st.nextToken();
 					myRoom=st.nextToken();
 					String rb=st.nextToken();
-					card.show(getContentPane(), "MR");
+					card.show(getContentPane(), "GAMEROOM");
+
 					String[] data={id,name,sex};
 					cr.model.addRow(data);
 					for(int i=0;i<6;i++)
