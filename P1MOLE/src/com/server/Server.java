@@ -26,7 +26,7 @@ public class Server implements Runnable {
 		}
 	}
 	
-	public void run() {
+	public void run(){
 		//접속 처리
 		while(true){
 			try {
@@ -97,7 +97,6 @@ public class Server implements Runnable {
 	    					  id=d.getId();
 	    					  sex=d.getSex();
 	    					  name=d.getName();
-	    					  avata=d.getAvata();
 	    					  pos="대기실";
 	    					  int type=d.getType();
 	    					  if(type==0)
@@ -118,10 +117,7 @@ public class Server implements Runnable {
 	    					    }
 	    					    dao.memberUpdate(id, 1);
 	    					  }
-	    					  else
-	    					  {
-	    						 messageTo(Function.MULTIID+"|"); 
-	    					  }
+	    					  
 	    				
 	    					// 개설된 방 정보
 	    					  for(Room room:roomVc)
@@ -179,7 +175,7 @@ public class Server implements Runnable {
 	    							break;
 	    						}
 	    					}
-					}
+						}
 					
 				case Function.MYROOMIN:
 				{
@@ -260,6 +256,7 @@ public class Server implements Runnable {
 					int i=0;
 					for(Room room:roomVc)
 					{
+						
 						if(rn.equals(room.roomName))
 						{
 							
@@ -297,7 +294,6 @@ public class Server implements Runnable {
 								{
 									messageTo(Function.MYROOMOUT+"|");
 									room.userVc.removeElementAt(k);
-									
 								}
 								k++;
 							}
