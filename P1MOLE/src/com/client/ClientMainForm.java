@@ -97,6 +97,9 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		
 		// 게임창 두더지 쓰레드
 		moleGameView.thread = new Thread(moleGameView);
+		
+		// 먹물 이벤트 리스너 연결
+		indianInk.timer.addActionListener(this);
 
 		// 게임규칙(정보보기) 창
 		gr.b1.addActionListener(this);
