@@ -211,15 +211,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			{
 				out.write((Function.EXIT+"|\n").getBytes());
 			}catch(Exception ex){}
-		}
-			
-/*			try
-	         {
-	            out.write((Function.EXIT+"|").getBytes());
-	         }catch(Exception ex){}*/
-			//card.show(getContentPane(), "LOG");
-			//loading.loadFinish = false;
-		else if(e.getSource() == mr.b1) {
+
+		} else if(e.getSource() == mr.b1){
 			String rn=mr.tf.getText().trim();
 			if(rn.length()<1) {
 				JOptionPane.showMessageDialog(this,
@@ -267,7 +260,6 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		{
 			mr.setVisible(false);
 		}
-
 		else if(e.getSource()==cr.b3)
 		{
 			try
@@ -303,6 +295,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			
 			// 게임이 시작되면 스타트값이 true로 바뀌며, 게임시작을 알게된다
 			startConfirm = true;
+			
+			moleGameView.thread=new Thread(moleGameView);	//스레드 생성 추가.
 			moleGameView.thread.start();
 			moleGameView.timer.start(); // 시간 제한 적용 구현중....
 			moleGamePlay.jButtonStn.setEnabled(false);
@@ -314,23 +308,48 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			moleGameView.moleImage=moleGameView.molesImage[4];
 			moleGameView.repaint();
 			
+			moleGameView.thread.stop();
 			moleGameView.timer.stop();
 			moleGamePlay.jButtonStn.setEnabled(true);
 			moleGamePlay.jButtonPause.setEnabled(false);
 			// 일시정지 중에 방을 나갈 수 있다
 			moleGamePlay.jButtonExit.setEnabled(true);
 		} else if (e.getSource() == moleGamePlay.jButtonExit) { // gameexit
-			MouseClickSound.SoundSet();
-			MouseClickSound.clip1.play();
-			// 게임을 종료하면 대기실로 이동하면서 쓰레드 할당을 해제하고,각종 버튼과 확인값을 초기화 시켜줌
-			readyConfirm = false;
-			startConfirm = false;
-			moleGamePlay.jButtonRdy.setEnabled(true);
-			moleGamePlay.jButtonCancel.setEnabled(true);
-			moleGamePlay.jButtonStn.setEnabled(true);
-			card.show(getContentPane(), "WR");
-			//moleGameView.thread.interrupt();
+			//add 팝업
+			int confirmPopup=JOptionPane.showConfirmDialog(this, "게임을 끝내시겠습니까?", "선택", JOptionPane.YES_NO_OPTION);
+			if(confirmPopup==JOptionPane.YES_OPTION){
+				try{
+					out.write((Function.ROOMOUT +"|" +myRoom+ "\n").getBytes());
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
+				moleGameView.m_score=0;
+				moleGameView.m_combo=0;
+				moleGamePlay.jTextPane.setText(String.valueOf("0"));
+				moleGameView.timerVar=3000;
+				
+				card.show(getContentPane(), "WR");
+			}
+			
+			if(confirmPopup==JOptionPane.NO_OPTION){
+				
+			}
 		}
+		
+		//먹물 히트시  이벤트 핸들러 내용 추가 
+		if(indianInk.timer==e.getSource()){
+			if(0<indianInk.m_timer){
+				System.out.println(indianInk.m_timer);
+				indianInk.m_timer--;
+				indianInk.repaint();
+			}else if(0==indianInk.m_timer){
+				indianInk.timer.stop();
+				indianInk.m_timer=2;	//초기 threadhold값으로 재설정.
+				indianInk.setVisible(false);
+			}
+		}
+		
+		
 	}
 
 	@Override
