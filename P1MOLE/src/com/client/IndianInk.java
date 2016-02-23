@@ -14,10 +14,10 @@ public class IndianInk extends JDialog{
 	Timer timer=new Timer(400,null);		//타이머
 	
 	public IndianInk(){
-		indianInkImage=Toolkit.getDefaultToolkit().getImage(".\\image\\IndianInk.jpg");
+		indianInkImage=Toolkit.getDefaultToolkit().getImage("image/IndianInk.jpg");
 		this.setUndecorated(true); 			//다이올로그 비활성화.
 		setSize(350,350);
-		setLocation(300,300);
+		setLocation(60,140);
 	}
 
 	@Override

@@ -59,8 +59,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		add("LOADING", loading);// 로딩화면
 		add("WR", wr); // 대기실
 		add("GAMERULE", gr); // 정보보기
+		//add("CR",cr);
 		add("GAMEROOM", moleGamePlay); // 게임창
-		add("CR",cr);
 
 		// 윈도우창 제목과 크기 지정
 		setTitle("잡아라두더지");
@@ -98,6 +98,9 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		
 		// 게임창 두더지 쓰레드
 		moleGameView.thread = new Thread(moleGameView);
+		
+		// 먹물 이벤트 리스너 연결
+		indianInk.timer.addActionListener(this);
 
 		// 게임규칙(정보보기) 창
 		gr.b1.addActionListener(this);
@@ -205,7 +208,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			mr.setVisible(true);
 			
 			
-		}else if (e.getSource() == wr.b2) {
+		} else if (e.getSource() == wr.b2) {
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "GAMEROOM");
@@ -216,19 +219,10 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			{
 				out.write((Function.EXIT+"|\n").getBytes());
 			}catch(Exception ex){}
-		}
-			
-/*			try
-	         {
-	            out.write((Function.EXIT+"|").getBytes());
-	         }catch(Exception ex){}*/
-			//card.show(getContentPane(), "LOG");
-			//loading.loadFinish = false;
-		else if(e.getSource() == mr.b1)
-		{
+
+		} else if(e.getSource() == mr.b1){
 			String rn=mr.tf.getText().trim();
-			if(rn.length()<1)
-			{
+			if(rn.length()<1) {
 				JOptionPane.showMessageDialog(this,
 						"방이름을 입력하세요");
 				mr.tf.requestFocus();
@@ -275,24 +269,24 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		{
 			mr.setVisible(false);
 		}
-		
-			else if(e.getSource()==cr.b3)
+		else if(e.getSource()==cr.b3)
+		{
+			try
 			{
-				try
-				{
-					out.write((Function.ROOMOUT+"|"
-							+myRoom+"\n").getBytes());
-				}catch(Exception ex){}
-			}
-		 else if (e.getSource() == wr.b5) {
+				out.write((Function.ROOMOUT+"|"+myRoom+"\n").getBytes());
+			}catch(Exception ex){}
+		} else if (e.getSource() == wr.b5) {			// 정보보기
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "GAMERULE");
-		} else if (e.getSource() == gr.b1) {
+		} else if (e.getSource() == gr.b1) {			// 정보보기 내부의 확인 버튼
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "WR");
-		} else if (e.getSource() == moleGamePlay.jButtonRdy) { // gameready
+		}
+		
+		//////////////// 게임창 버튼 ////////////////////////////
+		else if (e.getSource() == moleGamePlay.jButtonRdy) { // gameready
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			
@@ -310,6 +304,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			
 			// 게임이 시작되면 스타트값이 true로 바뀌며, 게임시작을 알게된다
 			startConfirm = true;
+			
+			moleGameView.thread=new Thread(moleGameView);	//스레드 생성 추가.
 			moleGameView.thread.start();
 			moleGameView.timer.start(); // 시간 제한 적용 구현중....
 			moleGamePlay.jButtonStn.setEnabled(false);
@@ -321,27 +317,48 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			moleGameView.moleImage=moleGameView.molesImage[4];
 			moleGameView.repaint();
 			
+			moleGameView.thread.stop();
 			moleGameView.timer.stop();
 			moleGamePlay.jButtonStn.setEnabled(true);
 			moleGamePlay.jButtonPause.setEnabled(false);
 			// 일시정지 중에 방을 나갈 수 있다
 			moleGamePlay.jButtonExit.setEnabled(true);
 		} else if (e.getSource() == moleGamePlay.jButtonExit) { // gameexit
-			MouseClickSound.SoundSet();
-			MouseClickSound.clip1.play();
-			// 게임을 종료하면 대기실로 이동하면서 쓰레드 할당을 해제하고,각종 버튼과 확인값을 초기화 시켜줌
-			readyConfirm = false;
-			startConfirm = false;
-			moleGamePlay.jButtonRdy.setEnabled(true);
-			moleGamePlay.jButtonCancel.setEnabled(true);
-			moleGamePlay.jButtonStn.setEnabled(true);
-			card.show(getContentPane(), "WR");
-			//moleGameView.thread.interrupt();
+			//add 팝업
+			int confirmPopup=JOptionPane.showConfirmDialog(this, "게임을 끝내시겠습니까?", "선택", JOptionPane.YES_NO_OPTION);
+			if(confirmPopup==JOptionPane.YES_OPTION){
+				try{
+					out.write((Function.ROOMOUT +"|" +myRoom+ "\n").getBytes());
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
+				moleGameView.m_score=0;
+				moleGameView.m_combo=0;
+				moleGamePlay.jTextPane.setText(String.valueOf("0"));
+				moleGameView.timerVar=3000;
+				
+				card.show(getContentPane(), "WR");
+			}
+			
+			if(confirmPopup==JOptionPane.NO_OPTION){
+				
+			}
 		}
-	}
-
-	public void append(String msg, String color) {
-
+		
+		//먹물 히트시  이벤트 핸들러 내용 추가 
+		if(indianInk.timer==e.getSource()){
+			if(0<indianInk.m_timer){
+				System.out.println(indianInk.m_timer);
+				indianInk.m_timer--;
+				indianInk.repaint();
+			}else if(0==indianInk.m_timer){
+				indianInk.timer.stop();
+				indianInk.m_timer=2;	//초기 threadhold값으로 재설정.
+				indianInk.setVisible(false);
+			}
+		}
+		
+		
 	}
 
 	@Override
@@ -352,19 +369,21 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				String msg = in.readLine();
 				//System.out.println("Server=>" + msg);
 				StringTokenizer st = new StringTokenizer(msg, "|");
+				// 100|id|sex|name
 				int protocol = Integer.parseInt(st.nextToken());
 				switch (protocol) {
 				case Function.LOGIN:
-				  {
-					  String[] data={
-						st.nextToken(),	 
-						st.nextToken(),
-						st.nextToken(),
-						st.nextToken()
-					  };
-					  wr.model2.addRow(data);
-				  }
-				  break;
+				{
+					String[] data={
+							st.nextToken(),	 
+							st.nextToken(),
+							st.nextToken(),
+							st.nextToken()
+					};
+					wr.model2.addRow(data);
+				}
+				break;
+				
 				case Function.MYLOG: {
 					String id = st.nextToken();
 					setTitle("Loading");
@@ -373,12 +392,13 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 												// 시작함
 					card.show(getContentPane(), "LOADING");
 				}
-					break;
+				break;
+				
 				case Function.WAITCHAT: {
 					wr.ta.append(st.nextToken() + "\n");
 					wr.bar.setValue(wr.bar.getMaximum());
 				}
-					break;
+				break;
 				
 				case Function.EXIT:
 				{
@@ -410,6 +430,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					login.IDField.requestFocus();
 				}
 				break;
+				
 				case Function.NOPWD:
 				{
 					JOptionPane.showMessageDialog(this,
@@ -417,6 +438,16 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					
 					login.PWField.setText("");
 					login.PWField.requestFocus();
+				}
+				break;
+
+				case Function.MULTIID:
+				{
+					JOptionPane.showMessageDialog(this,
+							"이미 사용중인 아이디입니다");
+					login.IDField.setText("");
+					login.PWField.setText("");
+					login.IDField.requestFocus();
 				}
 				break;
 				
@@ -449,8 +480,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 							cr.sw[i]=true;
 							cr.pan[i].setLayout(new BorderLayout());
 							cr.pan[i].removeAll();
-							cr.pan[i].add("Center",
-									new JLabel(new ImageIcon("c:\\image\\"
+							cr.pan[i].add("Center", new JLabel(new ImageIcon("c:\\image\\"
 							        +(sex.equals("남자")?"m":"w")+avata+".gif")));
 							cr.idtf[i].setText(name);
 							if(id.equals(rb))

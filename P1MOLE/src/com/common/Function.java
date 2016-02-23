@@ -25,7 +25,7 @@ public class Function {
 	   
 	   public static final int MYROOMIN=270;
 	   public static final int ROOMIN=220;
-	   public static final int ROOMOUT=230;
+	   public static final int ROOMOUT=230;			//방나가기.
 	   public static final int MYROOMOUT=240;
 	   public static final int WAITUPDATE=250;
 	   public static final int BANGCHANGE=260;

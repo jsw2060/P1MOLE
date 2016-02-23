@@ -7,21 +7,53 @@ import java.awt.*;
  * Created by sist on 2016-02-11.
  */
 public class MoleGamePlay extends JPanel {
-	JPanel myP,yourP;  //게임창에 내 아바타,상대방 아바타 나오는 클래스 변수 추가
-	JTextField myTF, yourTF;
     MoleGameView moleGameMyView=new MoleGameView();
-    MoleGameView moleGameYourView=new MoleGameView();
+    //MoleGameView moleGameYourView=new MoleGameView();
+	
+	//게임창에 내 아바타,상대방 아바타 나오는 클래스 변수 추가
+	JPanel myP,yourP;
+	// 게임내 채팅 부분
+	JTextField myTF, yourTF;
+	JTextField tf;
+	JTextArea ta;
+	
+	// 각종 게임 구성부
     JButton jButtonStn, jButtonRdy, jButtonPause, jButtonCancel, jButtonExit;
     NotiBar notiMyBar=moleGameMyView.notiMyBar;
-    //NotiBar notiYourBar=moleGameYourView.notiBar;
-    
     JTextPane jTextPane;
     JLabel scoreJLabel;
     Image image,cursorImage;
     Cursor cursor;
 
     public MoleGamePlay(){
-
+    	// 게임내 채팅창
+    	ta = new JTextArea();
+    	JScrollPane js = new JScrollPane(ta);
+    	tf=new JTextField();
+    	// 나와 상대 아바타
+    	myP = new JPanel();
+    	yourP = new JPanel();
+    	myTF = new JTextField();
+    	yourTF = new JTextField();
+    	myP.setBackground(Color.black);
+    	yourP.setBackground(Color.black);
+    	myP.setBounds(455, 15, 150, 150);
+    	yourP.setBounds(610, 15, 150, 150);
+    	myTF.setBounds(455, 170, 150, 30);
+    	yourTF.setBounds(610, 170, 150, 30);
+    	// 게임내 채팅창 위치
+    	js.setBounds(455,220, 305, 160);
+    	tf.setBounds(455,390, 305, 30);
+    	
+    	// 나와 상대의 아바타와 아이디
+    	add(myP);
+    	add(yourP);
+    	add(myTF);
+    	add(yourTF);
+    	// 채팅창
+    	add(js);
+    	add(tf);
+    	
     	scoreJLabel=new JLabel(new ImageIcon("image/score.png"));	//스코어 이미지 위치
     	scoreJLabel.setBounds(10,10,144,44);
         
@@ -58,12 +90,10 @@ public class MoleGamePlay extends JPanel {
 
         JLabel gamemenuJLabel=new JLabel();
         gamemenuJLabel.setLayout(null);
-        
+        gamemenuJLabel.setBounds(440,400,338,192);
         gamemenuJLabel.add(jButtonStn);	gamemenuJLabel.add(jButtonRdy);
         gamemenuJLabel.add(jButtonPause);	gamemenuJLabel.add(jButtonCancel);
         gamemenuJLabel.add(jButtonExit);
-        //jLabel1.setOpaque(false);
-        gamemenuJLabel.setBounds(440,360,338,192);
 
         image=Toolkit.getDefaultToolkit().getImage("image/back.png");
         cursorImage=Toolkit.getDefaultToolkit().getImage("image/01.png");

@@ -48,7 +48,7 @@ public class MemberDAO {
     	String res="";
     	try
     	{
-    		// ¿¬°á
+    		// ì—°ê²°
     		getConnection();
     		String sql="SELECT COUNT(*) FROM member WHERE id=?";
     		ps=conn.prepareStatement(sql);
