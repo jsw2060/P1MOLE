@@ -482,7 +482,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					wr.model1.addRow(data);
 				}
 				break;
-				
+
+				// 게임방 들어가기
 				case Function.MYROOMIN:
 				{
 					String id=st.nextToken();
@@ -491,7 +492,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					String avata=st.nextToken();
 					myRoom=st.nextToken();
 					String rb=st.nextToken();
-					card.show(getContentPane(), "MR");
+					card.show(getContentPane(), "GAMEROOM");
+
 					String[] data={id,name,sex};
 					cr.model.addRow(data);
 					for(int i=0;i<6;i++)
