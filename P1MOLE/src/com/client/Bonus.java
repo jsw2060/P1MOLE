@@ -1,5 +1,6 @@
 package com.client;
 
+import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,8 +16,8 @@ public class Bonus extends JDialog implements ActionListener{
 	
 	JPanel jPanel;
 	JButton jButton;
-	JTable jTable;
-
+	
+	ImageIcon imageIcon;
 	
 	int m_timer=3;
 	Timer timer=new Timer(1000,this);
@@ -29,6 +30,9 @@ public class Bonus extends JDialog implements ActionListener{
 		
 		jButton.setContentAreaFilled(false);
 		this.add(jButton);
+		
+		imageIcon=new ImageIcon(".\\image\\bonus.jpg");
+		
 		this.setSize(500,500);
 		this.setLocation(250, 250);
 		this.setModal(true);
@@ -36,6 +40,15 @@ public class Bonus extends JDialog implements ActionListener{
 		
 	}
 	
+	//보너스 이미지 그리기
+	@Override
+	public void paint(Graphics g) {
+		// TODO Auto-generated method stub
+		g.drawImage(imageIcon.getImage(),0,0,getWidth(),getHeight(),this);
+	}
+
+
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(timer==e.getSource()){
