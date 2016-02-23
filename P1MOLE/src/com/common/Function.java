@@ -11,6 +11,7 @@ public class Function {
 	   public static final int MYCHATEND=210;
 	// 채팅 관련
 	public static final int WAITCHAT = 500;
+	public static final int GAMECHAT1 = 510;
 	public static final int MAKEROOM =300;
 	// 게임 관련
 	// 나가기 관련

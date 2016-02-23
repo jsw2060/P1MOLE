@@ -52,12 +52,12 @@ public class Login extends JPanel implements MouseListener{
 		setLayout(null);
 		
 		//버튼들 메모리 할당
-		la1=new JLabel("이름");
+		
 		IDLabel=new JLabel("ID");
 		PWLabel=new JLabel("PW");
 		la4=new JLabel("성별");
 		
-		nf=new JTextField();
+		
 		IDField=new JTextField();
 		PWField=new JPasswordField();
 		
@@ -83,8 +83,7 @@ public class Login extends JPanel implements MouseListener{
 		
 		//배치 
 		setLayout(null);
-		la1.setBounds(280, 380, 30, 30);
-		nf.setBounds(315, 380, 150, 30);
+		
 		IDLabel.setBounds(280,415,30,30);
 		IDField.setBounds(315,415,150,30);
 		PWLabel.setBounds(280,450,30,30);
@@ -96,7 +95,7 @@ public class Login extends JPanel implements MouseListener{
 		login.setBounds(470,415,65,65);
 
 		//추가
-		add(la1);add(nf);
+		
 		add(IDLabel);add(IDField);add(login);
 		add(PWLabel);add(PWField);
 		add(p);

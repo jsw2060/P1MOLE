@@ -83,6 +83,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	    cr.b2.addActionListener(this);
 	    cr.b3.addActionListener(this);
 	    cr.tf.addActionListener(this);
+	    moleGamePlay.tf.addActionListener(this);
 
 		// 방만들기 창
 		mr.b1.addActionListener(this);
@@ -214,6 +215,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		} else if (e.getSource() == wr.b2) {
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
+			setTitle("게임방");
 			card.show(getContentPane(), "GAMEROOM");
 		} else if (e.getSource() == wr.b6) {
 			MouseClickSound.SoundSet();
@@ -236,7 +238,6 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				temp=wr.model1.getValueAt(i, 0).toString();
 				if(rn.equals(temp))
 				{
-
 					JOptionPane.showMessageDialog(this, "이미 존재하는 방입니다\n다른 이름을 입력하세요");
 					mr.tf.setText("");
 					mr.tf.requestFocus();
@@ -261,7 +262,6 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				out.write((Function.MAKEROOM+"|"+rn+"|"+state+"|"+pwd+"|"+inwon+"\n").getBytes());
 			}catch(Exception ex){}
 			mr.setVisible(false);
-
 		}
 		
 		else if(e.getSource()==mr.b2)
@@ -343,6 +343,18 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				
 			}
 		}
+		else if(e.getSource()==moleGamePlay.tf)
+		{
+			String msg=moleGamePlay.tf.getText().trim();
+			if(msg.length()<1)
+			return;
+			
+			try
+			{
+				out.write((Function.GAMECHAT1+"|"+msg+"\n").getBytes());
+			}catch(Exception ex){}
+			moleGamePlay.tf.setText("");
+		}
 		
 		//먹물 히트시  이벤트 핸들러 내용 추가 
 		if(indianInk.timer==e.getSource()){
@@ -376,7 +388,6 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					String[] data={
 							st.nextToken(),	 
 							st.nextToken(),
-							st.nextToken(),
 							st.nextToken()
 					};
 					wr.model2.addRow(data);
@@ -396,6 +407,12 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				case Function.WAITCHAT: {
 					wr.ta.append(st.nextToken() + "\n");
 					wr.bar.setValue(wr.bar.getMaximum());
+				}
+				break;
+				
+				case Function.GAMECHAT1: {
+					moleGamePlay.ta.append(st.nextToken() + "\n");
+					moleGamePlay.bar.setValue(moleGamePlay.bar.getMaximum());
 				}
 				break;
 				
@@ -502,22 +519,6 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 						cr.b2.setEnabled(false);
 					}
 					
-				}
-				break;
-				
-				case Function.POSCHANGE:
-				{
-					String id=st.nextToken();
-					String pos=st.nextToken();
-					for(int i=0;i<wr.model2.getRowCount();i++)
-					{
-						String temp=wr.model2.getValueAt(i,0).toString();
-						if(id.equals(temp))
-						{
-							wr.model2.setValueAt(pos, i, 3);
-							break;
-						}
-					}
 				}
 				break;
 

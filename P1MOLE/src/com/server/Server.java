@@ -103,7 +103,7 @@ public class Server implements Runnable {
 	    					  {
 	    					    // 대기실에 있는 사람에게 정보 전송
 	    					    messageAll(Function.LOGIN+"|"+id+"|"
-	    							+name+"|"+sex+"|"+pos);
+	    							+name+"|"+pos);
 	    					    // 저장
 	    					    waitVc.addElement(this);
 	    					    messageTo(Function.MYLOG+"|"+id);
@@ -112,8 +112,7 @@ public class Server implements Runnable {
 	    						  messageTo(Function.LOGIN+"|"
 	    					            +client.id+"|"
 		    							+client.name+"|"
-	    					            +client.sex+"|"
-		    							+client.pos);
+	    					            +client.pos);
 	    					    }
 	    					    dao.memberUpdate(id, 1);
 	    					  }
@@ -134,6 +133,13 @@ public class Server implements Runnable {
 						{
 							String data = st.nextToken();
 							messageAll(Function.WAITCHAT + "|[" + name + "]" + data);
+						}
+						break;
+						
+						case Function.GAMECHAT1:	// 채팅
+						{
+							String data = st.nextToken();
+							messageAll(Function.GAMECHAT1 + "|[" + name + "]" + data);
 						}
 						break;
 						

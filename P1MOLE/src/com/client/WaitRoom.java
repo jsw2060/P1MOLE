@@ -55,7 +55,7 @@ public class WaitRoom extends JPanel implements ActionListener, MouseListener{
 		JScrollPane js1 = new JScrollPane(table1); 		// table1을 스크롤되게 만듬
 		
 		// stand by 
-		String[] col2 = {"ID", "대화명", "성별"};		// table2 배열에 들어갈 내용 선언
+		String[] col2 = {"ID", "이름", "위치"};		// table2 배열에 들어갈 내용 선언
 		String[] [] row2 = new String[0][3];		// table2 가로로3,세로로 1칸생성
 
 		model2 = new DefaultTableModel(row2, col2){

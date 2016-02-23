@@ -16,6 +16,7 @@ public class MoleGamePlay extends JPanel {
 	JTextField myTF, yourTF;
 	JTextField tf;
 	JTextArea ta;
+	JScrollBar bar;
 	
 	// 각종 게임 구성부
     JButton jButtonStn, jButtonRdy, jButtonPause, jButtonCancel, jButtonExit;
@@ -29,7 +30,9 @@ public class MoleGamePlay extends JPanel {
     	// 게임내 채팅창
     	ta = new JTextArea();
     	JScrollPane js = new JScrollPane(ta);
+    	bar=js.getVerticalScrollBar();
     	tf=new JTextField();
+    	
     	// 나와 상대 아바타
     	myP = new JPanel();
     	yourP = new JPanel();
@@ -56,7 +59,10 @@ public class MoleGamePlay extends JPanel {
     	
     	scoreJLabel=new JLabel(new ImageIcon("image/score.png"));	//스코어 이미지 위치
     	scoreJLabel.setBounds(10,10,144,44);
-        
+    	
+    	
+    	
+    	
         jTextPane=new JTextPane();							//스코어  위치
         jTextPane.setEditable(false);
         jTextPane.setBounds(154,10,180,43);
