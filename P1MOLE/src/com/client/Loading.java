@@ -21,7 +21,7 @@ public class Loading extends JPanel implements MouseListener {
 	
 	// 이미지 불러오고, 각종 컴포넌트 초기화
 	public Loading() {
-		//loadImage = Toolkit.getDefaultToolkit().getImage("c:\\image\\load.gif");	// 사용x
+		
 		backImage = Toolkit.getDefaultToolkit().getImage("image/loadBack.png");		// 배경이미지
 
 		// 마우스용 이미지
@@ -65,7 +65,7 @@ public class Loading extends JPanel implements MouseListener {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(backImage, 0, 0, getWidth(), getHeight(), this);
-		//g.drawImage(loadImage, 10, 0, 775, 500, this);
+		
 	}
 	
 	// Thread 쓰레드

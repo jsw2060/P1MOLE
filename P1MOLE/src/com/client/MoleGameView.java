@@ -14,7 +14,7 @@ import java.util.*;
 public class MoleGameView extends JPanel implements Runnable, MouseMotionListener{
 
     NotiBar notiMyBar=new NotiBar();
-    //NotiBar notiYourBar=new NotiBar();
+
     Rectangle[] rectangles=new Rectangle[9];
     Image[] molesImage=new Image[5];
     Image[] molesHitImage=new Image[5];
@@ -48,6 +48,7 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
                          //Normal Mole, Luck Mole을 miss없이 가격하면 콤보가 증가합니다
                          //두더지를 놓치지 않고 맞추면 콤보가 올라 갑니다.
     int m_combo=0;      //콤보 조건 확인시 필요.
+    int m_score=0;		//hit시에 게임 점수 계산시 사용할 변수.
 
     int left,top,width,height;
     int stringsNumber2=0;

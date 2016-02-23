@@ -11,6 +11,15 @@ public class WaitRoom extends JPanel implements ActionListener, MouseListener{
 	JTextField tf; 							// 채팅창 입력
 	JPanel movie;							// 오전강사님 소스따온거 대채할거 생기면 대체바람
 	JButton b1, b2, b3, b4, b5, b6, b7;		// 들어갈 버튼 선언부
+	/*
+	 * 		b1 = new JButton("방만들기");
+		b2 = new JButton("방들어가기");
+		b3 = new JButton("게임신청");
+		b4 = new JButton("쪽지보내기");
+		b5 = new JButton("정보보기");
+		b6 = new JButton("나가기");
+		b7 = new JButton("보내기");
+	 */
 	JScrollBar bar;
 	
 	// 마우스 커서용
@@ -34,19 +43,29 @@ public class WaitRoom extends JPanel implements ActionListener, MouseListener{
 		back = Toolkit.getDefaultToolkit().getImage("image/back.png");
 		String[] col1 = {"방이름", "공개/비공개", "인원"}; 		// table1 배열에 들어갈 내용 선언
 		String[] [] row1 = new String[0][3]; 			// table1 가로로3,세로로 1칸생성
-		model1 = new DefaultTableModel(row1, col1); 	// table1에 들어갈 내용을 model1으로 모음
+		model1 = new DefaultTableModel(row1, col1){
+			public boolean isCellEditable(int r, int c){
+				return false;
+			}
+		}; 	// table1에 들어갈 내용을 model1으로 모음
 		table1 = new JTable(model1); 					// table 1과 model1을 동기화
 		table1.getTableHeader().setReorderingAllowed(false); 	//Table 위치 고정
 		table1.getTableHeader().setResizingAllowed(false); 		//Table 크기 고정
+		table1.setShowVerticalLines(false);
 		JScrollPane js1 = new JScrollPane(table1); 		// table1을 스크롤되게 만듬
 		
 		// stand by 
 		String[] col2 = {"ID", "대화명", "위치"};		// table2 배열에 들어갈 내용 선언
 		String[] [] row2 = new String[0][3];		// table2 가로로3,세로로 1칸생성
-		model2 = new DefaultTableModel(row2, col2);	// table2에 들어갈 내용을 model2으로 모음
+		model2 = new DefaultTableModel(row2, col2){
+			public boolean isCellEditable(int r, int c){
+				return false;
+			}
+		};	// table2에 들어갈 내용을 model2으로 모음
 		table2 = new JTable(model2);				// table2과  model2을 동기화
 		table2.getTableHeader().setReorderingAllowed(false); 
 		table2.getTableHeader().setResizingAllowed(false);
+		table2.setShowVerticalLines(false);
 		JScrollPane js2 = new JScrollPane(table2);	// table2을 스크롤되게 만듬
 		
 		// chatting
