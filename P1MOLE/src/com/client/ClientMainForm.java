@@ -211,16 +211,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			{
 				out.write((Function.EXIT+"|\n").getBytes());
 			}catch(Exception ex){}
-		}
-			
-/*			try
-	         {
-	            out.write((Function.EXIT+"|").getBytes());
-	         }catch(Exception ex){}*/
-			//card.show(getContentPane(), "LOG");
-			//loading.loadFinish = false;
-		else if(e.getSource() == mr.b1)
-		{
+		} else if(e.getSource() == mr.b1){
 			String rn=mr.tf.getText().trim();
 			if(rn.length()<1)
 			{
@@ -270,14 +261,14 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			mr.setVisible(false);
 		}
 		
-			else if(e.getSource()==cr.b3)
+		else if(e.getSource()==cr.b3)
+		{
+			try
 			{
-				try
-				{
-					out.write((Function.ROOMOUT+"|"
-							+myRoom+"\n").getBytes());
-				}catch(Exception ex){}
-			}
+				out.write((Function.ROOMOUT+"|"
+						+myRoom+"\n").getBytes());
+			}catch(Exception ex){}
+		}
 		 else if (e.getSource() == wr.b5) {
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
@@ -344,6 +335,21 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				
 			}
 		}
+		
+		//먹물 히트시  이벤트 핸들러 내용 추가 
+		if(indianInk.timer==e.getSource()){
+			if(0<indianInk.m_timer){
+				System.out.println(indianInk.m_timer);
+				indianInk.m_timer--;
+				indianInk.repaint();
+			}else if(0==indianInk.m_timer){
+				indianInk.timer.stop();
+				indianInk.m_timer=2;	//초기 threadhold값으로 재설정.
+				indianInk.setVisible(false);
+			}
+		}
+		
+		
 	}
 
 	public void append(String msg, String color) {
