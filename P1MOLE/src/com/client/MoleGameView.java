@@ -14,7 +14,7 @@ import java.util.*;
 public class MoleGameView extends JPanel implements Runnable, MouseMotionListener{
 
     NotiBar notiMyBar=new NotiBar();
-    //NotiBar notiYourBar=new NotiBar();
+
     Rectangle[] rectangles=new Rectangle[9];
     Image[] molesImage=new Image[5];
     Image[] molesHitImage=new Image[5];
