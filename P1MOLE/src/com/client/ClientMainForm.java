@@ -222,7 +222,6 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			mr.pf.setVisible(false);
 			mr.setVisible(true);
 			
-			
 		} else if (e.getSource() == wr.b2) {
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
