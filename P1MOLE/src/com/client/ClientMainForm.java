@@ -80,22 +80,24 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		login.login.addActionListener(this); // 로그인
 
 		// 대기실 창
+	    wr.table1.addMouseListener(this);
+	    wr.table2.addMouseListener(this);
 		wr.tf.addActionListener(this);
 		wr.b1.addActionListener(this);
 		wr.b2.addActionListener(this);
 		wr.b5.addActionListener(this);
 		wr.b6.addActionListener(this);
-		cr.b1.addActionListener(this);
+/*		cr.b1.addActionListener(this);
 	    cr.b2.addActionListener(this);
 	    cr.b3.addActionListener(this);
-	    cr.tf.addActionListener(this);
-	    moleGamePlay.tf.addActionListener(this);
+	    cr.tf.addActionListener(this);*/
 
 		// 방만들기 창
 		mr.b1.addActionListener(this);
 		mr.b2.addActionListener(this);
 		
 		// 게임 리스너 추가
+	    moleGamePlay.tf.addActionListener(this);
 		moleGamePlay.jButtonStn.addActionListener(this);
 		moleGamePlay.jButtonRdy.addActionListener(this);
 		moleGamePlay.jButtonCancel.addActionListener(this);
@@ -227,7 +229,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			setTitle("게임방");
-			card.show(getContentPane(), "GAMEROOM");
+			//card.show(getContentPane(), "GAMEROOM");
 		} else if (e.getSource() == wr.b6) {
 			int confirmPopup=JOptionPane.showConfirmDialog(this, "정말로 나가시는거에요?", "선택", JOptionPane.YES_NO_OPTION);
 			if(confirmPopup==JOptionPane.YES_OPTION){
@@ -510,8 +512,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					String rb=st.nextToken();
 					card.show(getContentPane(), "GAMEROOM");
 
-/*					String[] data={id,name,sex};
-					cr.model.addRow(data);*/
+					String[] data={id,name,sex};
+					//cr.model.addRow(data);
 					for(int i=0;i<2;i++)
 					{
 						if(!moleGamePlay.sw[i])
@@ -541,8 +543,8 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					String avata=st.nextToken();
 					String rb=st.nextToken();
 					card.show(getContentPane(), "GAMEROOM");
-/*					String[] data={id,name,sex};
-					cr.model.addRow(data);*/
+					String[] data={id,name,sex};
+					//cr.model.addRow(data);
 					for(int i=0;i<2;i++)
 					{
 						if(!moleGamePlay.sw[i])
@@ -650,7 +652,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					moleGamePlay.ta.setText("");
 					moleGamePlay.tf.setText("");
 
-					card.show(getContentPane(), "GAMEROOM");
+					card.show(getContentPane(), "WR");
 				}
 				}
 			}catch (Exception ex) {}
@@ -686,8 +688,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				StringTokenizer st=
 						new StringTokenizer(ri, "/");
 				// 1/6  => 6/6
-				if(Integer.parseInt(st.nextToken())==
-						Integer.parseInt(st.nextToken()))
+				if(Integer.parseInt(st.nextToken())== Integer.parseInt(st.nextToken()))
 				{
 					JOptionPane.showMessageDialog(this,
 							"더이상 입장이 불가능 합니다");
