@@ -9,11 +9,15 @@ import java.awt.*;
 public class MoleGamePlay extends JPanel {
     MoleGameView moleGameMyView=new MoleGameView();
     //MoleGameView moleGameYourView=new MoleGameView();
-	
+    // 아바타
+    JPanel[] pan=new JPanel[2];
+    // 접속 여부 확인
+    boolean[] sw=new boolean[2];
+    JTextField[] idtf=new JTextField[2];
 	//게임창에 내 아바타,상대방 아바타 나오는 클래스 변수 추가
-	JPanel myP,yourP;
+	//JPanel myP,yourP;
 	// 게임내 채팅 부분
-	JTextField myTF, yourTF;
+	//JTextField myTF, yourTF;
 	JTextField tf;
 	JTextArea ta;
 	JScrollBar bar;
@@ -27,13 +31,32 @@ public class MoleGamePlay extends JPanel {
     Cursor cursor;
 
     public MoleGamePlay(){
+    	for(int i=0;i<2;i++)
+    	{
+    		pan[i]=new JPanel();
+    		pan[i].setBackground(Color.black);
+    		idtf[i]=new JTextField();
+    		idtf[i].setEditable(false);
+    		idtf[i].setHorizontalAlignment(JLabel.CENTER);
+    	}
     	// 게임내 채팅창
     	ta = new JTextArea();
+    	ta.setEnabled(false);
     	JScrollPane js = new JScrollPane(ta);
     	bar=js.getVerticalScrollBar();
     	tf=new JTextField();
     	
-    	// 나와 상대 아바타
+    	pan[0].setBounds(455, 15, 150, 150);
+    	add(pan[0]);
+    	idtf[0].setBounds(455, 170, 150, 30);
+    	add(idtf[0]);
+    	
+    	pan[1].setBounds(610, 15, 150, 150);
+    	add(pan[1]);
+    	idtf[1].setBounds(610, 170, 150, 30);
+    	add(idtf[1]);
+    	
+/*    	// 나와 상대 아바타
     	myP = new JPanel();
     	yourP = new JPanel();
     	myTF = new JTextField();
@@ -43,16 +66,16 @@ public class MoleGamePlay extends JPanel {
     	myP.setBounds(455, 15, 150, 150);
     	yourP.setBounds(610, 15, 150, 150);
     	myTF.setBounds(455, 170, 150, 30);
-    	yourTF.setBounds(610, 170, 150, 30);
+    	yourTF.setBounds(610, 170, 150, 30);*/
     	// 게임내 채팅창 위치
     	js.setBounds(455,220, 305, 160);
     	tf.setBounds(455,390, 305, 30);
     	
     	// 나와 상대의 아바타와 아이디
-    	add(myP);
+/*    	add(myP);
     	add(yourP);
     	add(myTF);
-    	add(yourTF);
+    	add(yourTF);*/
     	// 채팅창
     	add(js);
     	add(tf);
