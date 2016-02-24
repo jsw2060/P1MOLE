@@ -139,12 +139,12 @@ public class Server implements Runnable {
 						}
 						break;
 						
-/*						case Function.GAMECHAT1:	// 채팅
+						case Function.ROOMCHAT:	// 채팅
 						{
 							String data = st.nextToken();
-							messageAll(Function.GAMECHAT1 + "|[" + name + "]" + data);
+							messageAll(Function.ROOMCHAT + "|[" + name + "]" + data);
 						}
-						break;*/
+						break;
 						
 						case Function.MAKEROOM:
 						{

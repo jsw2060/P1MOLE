@@ -39,7 +39,7 @@ public class MoleGamePlay extends JPanel {
     	}
     	// 게임내 채팅창
     	ta = new JTextArea();
-    	ta.setEditable(true);
+    	ta.setEditable(false);
     	JScrollPane js = new JScrollPane(ta);
     	bar=js.getVerticalScrollBar();
     	tf=new JTextField();
