@@ -130,7 +130,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	// 서버와 연결
 	public void connection(String id, String pwd, String sex) {
 		try {
-			//s = new Socket("211.238.142.85", 9469);
+
 			s = new Socket("211.238.142.85", 9469);
 			// s=>server
 			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -223,7 +223,6 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			mr.pf.setVisible(false);
 			mr.setVisible(true);
 			
-			
 		} else if (e.getSource() == wr.b2) {
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
@@ -244,7 +243,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				System.exit(0);
 			}
 			if(confirmPopup==JOptionPane.NO_OPTION){
-				
+				card.show(getContentPane(), "WR");
 			}
 
 		} else if(e.getSource() == mr.b1){
@@ -389,9 +388,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				indianInk.m_timer=2;	//초기 threadhold값으로 재설정.
 				indianInk.setVisible(false);
 			}
-		}
-		
-		
+		}			
 	}
 
 	@Override
