@@ -136,8 +136,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out = s.getOutputStream();
 			out.write((Function.LOGIN + "|" + id + "|" + pwd + "|" + sex + "\n").getBytes());
-		} catch (Exception ex) {
-		}
+		} catch (Exception ex) {}
 
 		// 서버로부터 응답값을 받아서 처리
 		new Thread(this).start();// run()
@@ -290,13 +289,13 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		{
 			mr.setVisible(false);
 		}
-		else if(e.getSource()==cr.b3)
+/*		else if(e.getSource()==cr.b3)
 		{
 			try
 			{
 				out.write((Function.ROOMOUT+"|"+myRoom+"\n").getBytes());
 			}catch(Exception ex){}
-		} else if (e.getSource() == wr.b5) {			// 정보보기
+		}*/ else if (e.getSource() == wr.b5) {			// 정보보기
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "GAMERULE");
@@ -373,7 +372,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			
 			try
 			{
-				out.write((Function.GAMECHAT1+"|"+msg+"\n").getBytes());
+				out.write((Function.GAMECHAT+"|"+msg+"\n").getBytes());
 			}catch(Exception ex){}
 			moleGamePlay.tf.setText("");
 		}
@@ -432,11 +431,11 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				}
 				break;
 				
-				case Function.GAMECHAT1: {
+/*				case Function.GAMECHAT1: {
 					moleGamePlay.ta.append(st.nextToken() + "\n");
 					moleGamePlay.bar.setValue(moleGamePlay.bar.getMaximum());
 				}
-				break;
+				break;*/
 				
 				case Function.EXIT:
 				{
@@ -511,38 +510,26 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					String rb=st.nextToken();
 					card.show(getContentPane(), "GAMEROOM");
 
-					String[] data={id,name,sex};
-					cr.model.addRow(data);
-					for(int i=0;i<6;i++)
+/*					String[] data={id,name,sex};
+					cr.model.addRow(data);*/
+					for(int i=0;i<2;i++)
 					{
-						if(!cr.sw[i])
+						if(!moleGamePlay.sw[i])
 						{
-							cr.sw[i]=true;
-							cr.pan[i].setLayout(new BorderLayout());
-							cr.pan[i].removeAll();
-							cr.pan[i].add("Center", new JLabel(new ImageIcon("c:\\image\\"
+							moleGamePlay.sw[i]=true;
+							moleGamePlay.pan[i].setLayout(new BorderLayout());
+							moleGamePlay.pan[i].removeAll();
+							moleGamePlay.pan[i].add("Center", new JLabel(new ImageIcon("c:\\image\\"
 							        +(sex.equals("남자")?"m":"w")+avata+".gif")));
-							cr.idtf[i].setText(name);
+							moleGamePlay.idtf[i].setText(name);
 							if(id.equals(rb))
 							{
-								cr.idtf[i].setForeground(Color.red);
+								moleGamePlay.idtf[i].setForeground(Color.red);
 							}
-							cr.pan[i].validate();
+							moleGamePlay.pan[i].validate();
 							break;
 						}
-					}
-					
-					if(id.equals(rb))
-					{
-						cr.b1.setEnabled(true);
-						cr.b2.setEnabled(true);
-					}
-					else
-					{
-						cr.b1.setEnabled(false);
-						cr.b2.setEnabled(false);
-					}
-					
+					}	
 				}
 				break;
 
@@ -553,25 +540,25 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					String sex=st.nextToken();
 					String avata=st.nextToken();
 					String rb=st.nextToken();
-					card.show(getContentPane(), "CR");
-					String[] data={id,name,sex};
-					cr.model.addRow(data);
-					for(int i=0;i<6;i++)
+					card.show(getContentPane(), "GAMEROOM");
+/*					String[] data={id,name,sex};
+					cr.model.addRow(data);*/
+					for(int i=0;i<2;i++)
 					{
-						if(!cr.sw[i])
+						if(!moleGamePlay.sw[i])
 						{
-							cr.sw[i]=true;
-							cr.pan[i].setLayout(new BorderLayout());
-							cr.pan[i].removeAll();
-							cr.pan[i].add("Center",
+							moleGamePlay.sw[i]=true;
+							moleGamePlay.pan[i].setLayout(new BorderLayout());
+							moleGamePlay.pan[i].removeAll();
+							moleGamePlay.pan[i].add("Center",
 									new JLabel(new ImageIcon("c:\\image\\"
 							        +(sex.equals("남자")?"m":"w")+avata+".gif")));
-							cr.idtf[i].setText(name);
+							moleGamePlay.idtf[i].setText(name);
 							if(id.equals(rb))
 							{
-								cr.idtf[i].setForeground(Color.red);
+								moleGamePlay.idtf[i].setForeground(Color.red);
 							}
-							cr.pan[i].validate();
+							moleGamePlay.pan[i].validate();
 							break;
 						}
 					}
@@ -580,9 +567,11 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 
 				case Function.ROOMCHAT:
 				{
-					cr.ta.append(st.nextToken()+"\n");
+					moleGamePlay.ta.append(st.nextToken() + "\n");
+					moleGamePlay.bar.setValue(moleGamePlay.bar.getMaximum());
 				}
 				break;
+				
 				case Function.WAITUPDATE:
 				{
 					/*
@@ -629,61 +618,45 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				{
 					String id=st.nextToken();
 					String name=st.nextToken();
-					for(int i=0;i<6;i++)
+					for(int i=0;i<2;i++)
 					{
-						String temp=cr.idtf[i].getText();
+						String temp=moleGamePlay.idtf[i].getText();
 						if(temp.equals(name))
 						{
-    						cr.sw[i]=false;
-    						cr.idtf[i].setText("");
-    						cr.pan[i].removeAll();
-    						cr.pan[i].setLayout(new BorderLayout());
-    						cr.pan[i].add("Center",new JLabel(
+    						moleGamePlay.sw[i]=false;
+    						moleGamePlay.idtf[i].setText("");
+    						moleGamePlay.pan[i].removeAll();
+    						moleGamePlay.pan[i].setLayout(new BorderLayout());
+    						moleGamePlay.pan[i].add("Center",new JLabel(
     								new ImageIcon("c:\\image\\def.png")));
-    						cr.pan[i].validate();
+    						moleGamePlay.pan[i].validate();
     						break;
-						}
-					}
-					
-					for(int i=cr.model.getRowCount()-1;i>=0;i--)
-					{
-						String ii=cr.model.getValueAt(i, 0).toString();
-						if(ii.equals(id))
-						{
-						  cr.model.removeRow(i);
-						  break;
 						}
 					}
 				}
 				break;
 				case Function.MYROOMOUT:
 				{
-					for(int i=0;i<6;i++)
+					for(int i=0;i<2;i++)
 					{
-						cr.sw[i]=false;
-						cr.idtf[i].setText("");
-						cr.pan[i].removeAll();
-						cr.pan[i].setLayout(new BorderLayout());
-						cr.pan[i].add("Center",new JLabel(
+						moleGamePlay.sw[i]=false;
+						moleGamePlay.idtf[i].setText("");
+						moleGamePlay.pan[i].removeAll();
+						moleGamePlay.pan[i].setLayout(new BorderLayout());
+						moleGamePlay.pan[i].add("Center",new JLabel(
 								new ImageIcon("c:\\image\\def.png")));
-						cr.pan[i].validate();
+						moleGamePlay.pan[i].validate();
 					}
-					cr.ta.setText("");
-					cr.tf.setText("");
-					for(int i=cr.model.getRowCount()-1;i>=0;i--)
-					{
-						cr.model.removeRow(i);
-					}
-					card.show(getContentPane(), "WR");
+					moleGamePlay.ta.setText("");
+					moleGamePlay.tf.setText("");
+
+					card.show(getContentPane(), "GAMEROOM");
 				}
-			}
 				}
-			 catch (Exception ex) {}
-		}
-			
+			}catch (Exception ex) {}
+		}	
 	}
 		
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
