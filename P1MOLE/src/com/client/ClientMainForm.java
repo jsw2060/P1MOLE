@@ -80,22 +80,24 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		login.login.addActionListener(this); // 로그인
 
 		// 대기실 창
+	    wr.table1.addMouseListener(this);
+	    wr.table2.addMouseListener(this);
 		wr.tf.addActionListener(this);
 		wr.b1.addActionListener(this);
 		wr.b2.addActionListener(this);
 		wr.b5.addActionListener(this);
 		wr.b6.addActionListener(this);
-		cr.b1.addActionListener(this);
+/*		cr.b1.addActionListener(this);
 	    cr.b2.addActionListener(this);
 	    cr.b3.addActionListener(this);
-	    cr.tf.addActionListener(this);
-	    moleGamePlay.tf.addActionListener(this);
+	    cr.tf.addActionListener(this);*/
 
 		// 방만들기 창
 		mr.b1.addActionListener(this);
 		mr.b2.addActionListener(this);
 		
 		// 게임 리스너 추가
+	    moleGamePlay.tf.addActionListener(this);
 		moleGamePlay.jButtonStn.addActionListener(this);
 		moleGamePlay.jButtonRdy.addActionListener(this);
 		moleGamePlay.jButtonCancel.addActionListener(this);
@@ -130,14 +132,12 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	// 서버와 연결
 	public void connection(String id, String pwd, String sex) {
 		try {
-
-			s = new Socket("211.238.142.85", 9469);
+			s = new Socket("211.238.142.72", 9469);
 			// s=>server
 			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out = s.getOutputStream();
 			out.write((Function.LOGIN + "|" + id + "|" + pwd + "|" + sex + "\n").getBytes());
-		} catch (Exception ex) {
-		}
+		} catch (Exception ex) {}
 
 		// 서버로부터 응답값을 받아서 처리
 		new Thread(this).start();// run()
@@ -227,7 +227,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			setTitle("게임방");
-			card.show(getContentPane(), "GAMEROOM");
+			//card.show(getContentPane(), "GAMEROOM");
 		} else if (e.getSource() == wr.b6) {
 			int confirmPopup=JOptionPane.showConfirmDialog(this, "정말로 나가시는거에요?", "선택", JOptionPane.YES_NO_OPTION);
 			if(confirmPopup==JOptionPane.YES_OPTION){
@@ -289,13 +289,13 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		{
 			mr.setVisible(false);
 		}
-		else if(e.getSource()==cr.b3)
+/*		else if(e.getSource()==cr.b3)
 		{
 			try
 			{
 				out.write((Function.ROOMOUT+"|"+myRoom+"\n").getBytes());
 			}catch(Exception ex){}
-		} else if (e.getSource() == wr.b5) {			// 정보보기
+		}*/ else if (e.getSource() == wr.b5) {			// 정보보기
 			MouseClickSound.SoundSet();
 			MouseClickSound.clip1.play();
 			card.show(getContentPane(), "GAMERULE");
@@ -372,7 +372,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 			
 			try
 			{
-				out.write((Function.GAMECHAT1+"|"+msg+"\n").getBytes());
+				out.write((Function.GAMECHAT+"|"+msg+"\n").getBytes());
 			}catch(Exception ex){}
 			moleGamePlay.tf.setText("");
 		}
@@ -429,11 +429,11 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				}
 				break;
 				
-				case Function.GAMECHAT1: {
+/*				case Function.GAMECHAT1: {
 					moleGamePlay.ta.append(st.nextToken() + "\n");
 					moleGamePlay.bar.setValue(moleGamePlay.bar.getMaximum());
 				}
-				break;
+				break;*/
 				
 				case Function.EXIT:
 				{
@@ -509,37 +509,25 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					card.show(getContentPane(), "GAMEROOM");
 
 					String[] data={id,name,sex};
-					cr.model.addRow(data);
-					for(int i=0;i<6;i++)
+					//cr.model.addRow(data);
+					for(int i=0;i<2;i++)
 					{
-						if(!cr.sw[i])
+						if(!moleGamePlay.sw[i])
 						{
-							cr.sw[i]=true;
-							cr.pan[i].setLayout(new BorderLayout());
-							cr.pan[i].removeAll();
-							cr.pan[i].add("Center", new JLabel(new ImageIcon("c:\\image\\"
+							moleGamePlay.sw[i]=true;
+							moleGamePlay.pan[i].setLayout(new BorderLayout());
+							moleGamePlay.pan[i].removeAll();
+							moleGamePlay.pan[i].add("Center", new JLabel(new ImageIcon("c:\\image\\"
 							        +(sex.equals("남자")?"m":"w")+avata+".gif")));
-							cr.idtf[i].setText(name);
+							moleGamePlay.idtf[i].setText(name);
 							if(id.equals(rb))
 							{
-								cr.idtf[i].setForeground(Color.red);
+								moleGamePlay.idtf[i].setForeground(Color.red);
 							}
-							cr.pan[i].validate();
+							moleGamePlay.pan[i].validate();
 							break;
 						}
-					}
-					
-					if(id.equals(rb))
-					{
-						cr.b1.setEnabled(true);
-						cr.b2.setEnabled(true);
-					}
-					else
-					{
-						cr.b1.setEnabled(false);
-						cr.b2.setEnabled(false);
-					}
-					
+					}	
 				}
 				break;
 
@@ -550,25 +538,25 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 					String sex=st.nextToken();
 					String avata=st.nextToken();
 					String rb=st.nextToken();
-					card.show(getContentPane(), "CR");
+					card.show(getContentPane(), "GAMEROOM");
 					String[] data={id,name,sex};
-					cr.model.addRow(data);
-					for(int i=0;i<6;i++)
+					//cr.model.addRow(data);
+					for(int i=0;i<2;i++)
 					{
-						if(!cr.sw[i])
+						if(!moleGamePlay.sw[i])
 						{
-							cr.sw[i]=true;
-							cr.pan[i].setLayout(new BorderLayout());
-							cr.pan[i].removeAll();
-							cr.pan[i].add("Center",
+							moleGamePlay.sw[i]=true;
+							moleGamePlay.pan[i].setLayout(new BorderLayout());
+							moleGamePlay.pan[i].removeAll();
+							moleGamePlay.pan[i].add("Center",
 									new JLabel(new ImageIcon("c:\\image\\"
 							        +(sex.equals("남자")?"m":"w")+avata+".gif")));
-							cr.idtf[i].setText(name);
+							moleGamePlay.idtf[i].setText(name);
 							if(id.equals(rb))
 							{
-								cr.idtf[i].setForeground(Color.red);
+								moleGamePlay.idtf[i].setForeground(Color.red);
 							}
-							cr.pan[i].validate();
+							moleGamePlay.pan[i].validate();
 							break;
 						}
 					}
@@ -577,9 +565,11 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 
 				case Function.ROOMCHAT:
 				{
-					cr.ta.append(st.nextToken()+"\n");
+					moleGamePlay.ta.append(st.nextToken() + "\n");
+					moleGamePlay.bar.setValue(moleGamePlay.bar.getMaximum());
 				}
 				break;
+				
 				case Function.WAITUPDATE:
 				{
 					/*
@@ -626,61 +616,45 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				{
 					String id=st.nextToken();
 					String name=st.nextToken();
-					for(int i=0;i<6;i++)
+					for(int i=0;i<2;i++)
 					{
-						String temp=cr.idtf[i].getText();
+						String temp=moleGamePlay.idtf[i].getText();
 						if(temp.equals(name))
 						{
-    						cr.sw[i]=false;
-    						cr.idtf[i].setText("");
-    						cr.pan[i].removeAll();
-    						cr.pan[i].setLayout(new BorderLayout());
-    						cr.pan[i].add("Center",new JLabel(
+    						moleGamePlay.sw[i]=false;
+    						moleGamePlay.idtf[i].setText("");
+    						moleGamePlay.pan[i].removeAll();
+    						moleGamePlay.pan[i].setLayout(new BorderLayout());
+    						moleGamePlay.pan[i].add("Center",new JLabel(
     								new ImageIcon("c:\\image\\def.png")));
-    						cr.pan[i].validate();
+    						moleGamePlay.pan[i].validate();
     						break;
-						}
-					}
-					
-					for(int i=cr.model.getRowCount()-1;i>=0;i--)
-					{
-						String ii=cr.model.getValueAt(i, 0).toString();
-						if(ii.equals(id))
-						{
-						  cr.model.removeRow(i);
-						  break;
 						}
 					}
 				}
 				break;
 				case Function.MYROOMOUT:
 				{
-					for(int i=0;i<6;i++)
+					for(int i=0;i<2;i++)
 					{
-						cr.sw[i]=false;
-						cr.idtf[i].setText("");
-						cr.pan[i].removeAll();
-						cr.pan[i].setLayout(new BorderLayout());
-						cr.pan[i].add("Center",new JLabel(
+						moleGamePlay.sw[i]=false;
+						moleGamePlay.idtf[i].setText("");
+						moleGamePlay.pan[i].removeAll();
+						moleGamePlay.pan[i].setLayout(new BorderLayout());
+						moleGamePlay.pan[i].add("Center",new JLabel(
 								new ImageIcon("c:\\image\\def.png")));
-						cr.pan[i].validate();
+						moleGamePlay.pan[i].validate();
 					}
-					cr.ta.setText("");
-					cr.tf.setText("");
-					for(int i=cr.model.getRowCount()-1;i>=0;i--)
-					{
-						cr.model.removeRow(i);
-					}
+					moleGamePlay.ta.setText("");
+					moleGamePlay.tf.setText("");
+
 					card.show(getContentPane(), "WR");
 				}
-			}
 				}
-			 catch (Exception ex) {}
-		}
-			
+			}catch (Exception ex) {}
+		}	
 	}
 		
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -710,8 +684,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 				StringTokenizer st=
 						new StringTokenizer(ri, "/");
 				// 1/6  => 6/6
-				if(Integer.parseInt(st.nextToken())==
-						Integer.parseInt(st.nextToken()))
+				if(Integer.parseInt(st.nextToken())== Integer.parseInt(st.nextToken()))
 				{
 					JOptionPane.showMessageDialog(this,
 							"더이상 입장이 불가능 합니다");
