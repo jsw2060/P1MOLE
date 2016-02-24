@@ -13,7 +13,8 @@ public class Server implements Runnable {
 	Vector<Room>  roomVc=new Vector<Room>();	// 방에 입장해 있는 Client 저장용
 	ServerSocket ss = null;	// 서버에서 접속시 처리 (교환  소켓)
 	
-	public Server(){
+	public Server()
+	{
 		try {
 			MemberDAO dao=MemberDAO.newInstance();
 			dao.memberAllUpdate();
@@ -28,8 +29,10 @@ public class Server implements Runnable {
 	
 	public void run(){
 		//접속 처리
-		while(true){
-			try {
+		while(true)
+		{
+			try 
+			{
 				// 클라이언트의 정보 => ip, port(Socket)
 				Socket s = ss.accept();	// 클라이언트가 접속할때만 호출됨. 접속을 기다리고 있음
 				// s => client
@@ -289,8 +292,11 @@ public class Server implements Runnable {
 										{
 											client.messageTo(Function.BANGCHANGE+"|"+room.roomBang+"|"+str);
 										}
+										
 									}
+									
 								}
+								
 							}
 							// 들어가는 사람 처리
 							int k=0;
