@@ -6,7 +6,7 @@ public class MemberDAO {
     private Connection conn;
     private PreparedStatement ps;
     private static MemberDAO dao;
-    private final String URL="jdbc:oracle:thin:@localhost:1521:ORCL";
+    private final String URL="jdbc:oracle:thin:@211.238.142.72:1521:ORCL";
     
     public MemberDAO()
     {

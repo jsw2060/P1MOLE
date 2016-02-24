@@ -45,7 +45,9 @@ public class Loading extends JPanel implements MouseListener {
 		setLayout(null);			// ClientMain의 레이아웃을 해제시키고, 새로 위치를 배치할 수 있도록 함
 		loadTitle.setFont(new Font("맑은고딕", Font.BOLD, 24));		// 폰트 지정 맑은고딕, 굵게, 크기 24
 		loadContext1.setFont(new Font("맑은고딕", Font.BOLD, 15));
+		loadContext1.setForeground(Color.black);
 		loadContext2.setFont(new Font("맑은고딕", Font.BOLD, 15));
+		loadContext2.setForeground(Color.black);
 		loadContext1.setBounds(90, 480, 750, 30);
 		loadContext2.setBounds(90, 510, 750, 30);
 		loadConfirm.setBounds(720, 490, 70, 50);
