@@ -52,7 +52,7 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
 
     int left,top,width,height;
     int stringsNumber2=0;
-    int count=0;
+    
     int timerVar=600;
 
     JLabel jLabel;
@@ -155,13 +155,13 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
                 }
 
                 //연속해서 3번 두더지 hit시에 보너스 점수 부여함.
-                if(c_combo==3 && timerVar>1000){
+/*                if(c_combo==3 && timerVar>1000){
                     c_combo=0;
                     
                     moleImage=molesImage[4];
                     repaint();
-                    //보너스 점수 추가 구현(예정)
-                }
+                    
+                }*/
 
             }
         }catch(Exception e){
@@ -235,3 +235,24 @@ public class MoleGameView extends JPanel implements Runnable, MouseMotionListene
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

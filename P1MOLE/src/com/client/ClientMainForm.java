@@ -115,7 +115,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 		indianInk.timer.addActionListener(this);
 		
 		// 보너스 이미지 아이콘 버튼 리스너 추가
-		bonus.jButton.addActionListener(this);
+		//bonus.jButton.addActionListener(this);
 		
 
 		// 게임규칙(정보보기) 창
@@ -132,7 +132,7 @@ public class ClientMainForm extends JFrame implements ActionListener, Runnable, 
 	// 서버와 연결
 	public void connection(String id, String pwd, String sex) {
 		try {
-			s = new Socket("211.238.142.85", 9469);
+			s = new Socket("127.0.0.1", 9469);
 			// s=>server
 			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out = s.getOutputStream();
